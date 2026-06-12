@@ -9,7 +9,7 @@ interface PanelLayoutProps {
 
 export const  AdminLayout =({ children }: PanelLayoutProps)=> {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50">
       <Sidebar />
 
       <div className="md:mr-[260px] transition-all duration-300">
