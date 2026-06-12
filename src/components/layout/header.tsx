@@ -5,14 +5,13 @@ import { Bell, Search, User } from "lucide-react";
 
 import {
   Button,
+  Input,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
-import { Input } from "@/components/ui/input";
-
 
 export default function Header() {
   return (

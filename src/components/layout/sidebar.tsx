@@ -32,7 +32,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 
 const menuItems = [
-  { label: "داشبورد", icon: LayoutDashboard, path: "/admin/test" },
+  { label: "داشبورد", icon: LayoutDashboard, path: "/admin" },
   {
     label: "انبارداری",
     icon: Package,
@@ -48,7 +48,7 @@ const menuItems = [
     label: "اکانت‌ها",
     icon: Gamepad2,
     children: [
-      { label: "مدیریت اکانت‌ها", path: "/accounts" },
+      { label: "مدیریت اکانت‌ها", path: "/admin/accounts" },
       { label: "بازی‌ها", path: "/games" },
       { label: "لاگ فروش اکانت", path: "/account-sales" },
     ],
@@ -141,7 +141,7 @@ function SidebarItem({ item, collapsed }: any) {
             'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all',
             'hover:bg-sidebar-accent',
             open || isChildActive
-              ? 'text-sidebar-primary-foreground bg-sidebar-accent'
+              ? 'text-neutral-0 bg-[#211736]'
               : 'text-sidebar-foreground/70'
           )}
         >
@@ -171,7 +171,7 @@ function SidebarItem({ item, collapsed }: any) {
                   'block px-3 py-2 rounded-lg text-sm transition-all',
                   'hover:bg-sidebar-accent',
                   pathname === child.path
-                    ? 'text-sidebar-primary bg-sidebar-accent font-medium'
+                    ? 'text-blue-600 bg-[#211736] font-medium'
                     : 'text-sidebar-foreground/60'
                 )}
               >
