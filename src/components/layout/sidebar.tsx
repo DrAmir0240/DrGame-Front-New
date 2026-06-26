@@ -98,7 +98,7 @@ const menuItems = [
     ],
   },
 
-  { label: "وظایف", icon: CheckSquare, path: "/tasks" },
+  { label: "وظایف", icon: CheckSquare, path: "/admin/tasks" },
   {
     label: "فروشگاه آنلاین",
     icon: Store,
