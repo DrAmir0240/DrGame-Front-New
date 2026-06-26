@@ -17,12 +17,16 @@ export type OrderStatus =
 
 export type PaymentStatus = "pending" | "paid" | "failed";
 
+export type OrderChannel = "in_store" | "online";
+
 export interface OrderItem {
   id: string;
+  productId?: string;
   productName: string;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
+  itemType?: "product" | "service";
 }
 
 export interface Order {
@@ -53,7 +57,7 @@ export interface Order {
 
 export interface OrderForm {
   orderType: OrderType;
-  channel: OrderChannel;
+  channel: OrderChannel | string;
   branchId: string;
   customerId: string;
   discountAmount: number;

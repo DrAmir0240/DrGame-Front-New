@@ -1,4 +1,24 @@
-import { Branch, Customer, Order, Product } from "./types";
+import type { Branch, Customer, Order, OrderStatus, Product } from "./types";
+
+export const statusLabels: Record<string, string> = {
+  pending: "در انتظار",
+  confirmed: "تأیید",
+  processing: "پردازش",
+  ready: "آماده",
+  dispatched: "ارسال",
+  delivered: "تحویل",
+  completed: "تکمیل",
+  cancelled: "لغو",
+};
+
+export const statusFilterOptions: { value: OrderStatus | "all"; label: string }[] = [
+  { value: "all", label: "همه وضعیت‌ها" },
+  { value: "pending", label: "در انتظار" },
+  { value: "confirmed", label: "تأیید شده" },
+  { value: "processing", label: "پردازش" },
+  { value: "completed", label: "تکمیل" },
+  { value: "cancelled", label: "لغو" },
+];
 
 export const orderTypeLabels = {
   physical_sale: "فروش کالا",
