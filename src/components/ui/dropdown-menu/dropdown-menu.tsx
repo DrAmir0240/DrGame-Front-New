@@ -3,6 +3,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Check, ChevronRight, Circle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import type { DropdownMenuShortcutProps } from "./types";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
@@ -175,9 +176,6 @@ const DropdownMenuSeparator = React.forwardRef<
 
 DropdownMenuSeparator.displayName =
   DropdownMenuPrimitive.Separator.displayName;
-
-interface DropdownMenuShortcutProps
-  extends React.HTMLAttributes<HTMLSpanElement> {}
 
 const DropdownMenuShortcut = ({
   className,

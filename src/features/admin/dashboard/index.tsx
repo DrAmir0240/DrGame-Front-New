@@ -1,5 +1,5 @@
 "use client";
-import StatusBadge from "@/components/shared/StatusBadge";
+import {StatusBadge} from "@/components/shared";
 import {
   Package,
   ShoppingCart,

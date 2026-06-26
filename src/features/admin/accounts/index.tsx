@@ -9,6 +9,7 @@ import {
   Label,
   Textarea,
   Switch,
+  Badge,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -26,7 +27,6 @@ import {
 
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 
 type AccountType = "ps_online" | "ps_offline" | "xbox" | "nintendo";
 
@@ -279,7 +279,7 @@ export const AccountsPage = () => {
       <DataTable columns={columns} data={filtered} isLoading={false} />
 
       <Dialog open={open} onOpenChange={(v) => !v && closeDialog()}>
-        <DialogContent className="max-w-lg">
+        <DialogContent  className="max-w-lg">
           <DialogHeader>
             <DialogTitle>{editing ? "ویرایش اکانت" : "اکانت جدید"}</DialogTitle>
           </DialogHeader>

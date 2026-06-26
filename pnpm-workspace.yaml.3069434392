@@ -1,0 +1,5 @@
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+storeDir: C:\Users\admin\AppData\Local\Temp\pnpm-store
