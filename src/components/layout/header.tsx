@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, LogOut, Settings, UserCircle } from "lucide-react";
 
 import {
   Button,
@@ -12,8 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
+
 
 export default function Header() {
+  const { data: user } = useGetAuthQuery();
+
   return (
     <header className="h-16 border-b border-neutral-200 bg-neutral-0 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-30">
       <div className="flex items-center gap-4 flex-1">
@@ -39,21 +43,39 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="gap-2 pr-2">
-              <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                <User className="w-4 h-4 text-primary" />
-              </div>
-
-              <span className="text-sm hidden sm:inline">{"مدیر"}</span>
+              {user?.user_pic ? (
+                <img
+                  src={user.user_pic}
+                  alt={user.user_name}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+              )}
+              <span className="text-sm hidden sm:inline">
+                {user?.user_name || user?.phone}
+              </span>
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuItem>پروفایل</DropdownMenuItem>
-            <DropdownMenuItem>تنظیمات</DropdownMenuItem>
+            <DropdownMenuItem className="gap-2">
+              <UserCircle className="w-4 h-4" />
+              پروفایل
+            </DropdownMenuItem>
+            <DropdownMenuItem className="gap-2">
+              <Settings className="w-4 h-4" />
+              تنظیمات
+            </DropdownMenuItem>
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="text-error">خروج</DropdownMenuItem>
+            <DropdownMenuItem className="text-error gap-2">
+              <LogOut className="w-4 h-4" />
+              خروج
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

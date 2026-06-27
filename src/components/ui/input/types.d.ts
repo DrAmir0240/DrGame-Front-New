@@ -4,4 +4,6 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
   label?: React.ReactNode;
   error?: string;
+  leftSection?: React.ReactNode;
+  rightSection?: React.ReactNode;
 };

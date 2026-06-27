@@ -1,17 +1,8 @@
 import type { Metadata } from "next";
 import { dana } from "@/config/fonts/fonts";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import QueryProvider from "@/providers/QueryProvider";
+import { PhoneProvider } from "@/contexts/PhoneContext";
 
 export const metadata: Metadata = {
   title: "Dr Game | دکتر گیم",
@@ -23,12 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="fa"
-      dir="rtl"
-      className={dana.variable} 
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="fa" dir="rtl" className={dana.variable}>
+      <body className="min-h-full flex flex-col">
+        <QueryProvider><PhoneProvider>{children}</PhoneProvider></QueryProvider>
+        </body>
     </html>
   );
 }
