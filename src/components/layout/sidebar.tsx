@@ -98,7 +98,14 @@ const menuItems = [
     ],
   },
 
-  { label: "وظایف", icon: CheckSquare, path: "/admin/tasks" },
+  {
+    label: "وظایف",
+    icon: CheckSquare,
+    children: [
+      { label: "وظایف معمولی", path: "/admin/tasks" },
+      { label: "وظایف روزانه", path: "/admin/tasks/daily" },
+    ],
+  },
   {
     label: "فروشگاه آنلاین",
     icon: Store,

@@ -38,7 +38,5 @@ export * from "./table/table";
 export * from "./tabs/tabs";
 export * from "./textarea/textarea";
 export * from "./toast/toast";
-export * from "./toaster/toaster";
 export * from "./toggle/toggle";
 export * from "./tooltip/tooltip";
-export * from "./use-toast/use-toast";

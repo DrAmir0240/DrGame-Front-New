@@ -86,6 +86,8 @@
   --color-info: var(--color-info-500);
   --color-warning: var(--color-warning-500);
   --color-error: var(--color-error-500);
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
   --color-neutral: var(--color-neutral-500);
 
   --radius-xxs: 4px;
@@ -173,6 +175,8 @@
   --error-700: #9f2d2d;
   --error-800: #772222;
   --error-900: #501717;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
 
   --sidebar-background: 260 85% 4%;
   --sidebar-foreground: 260 10% 90%;
@@ -187,6 +191,8 @@
 .dark {
   --background: #0f1115;
   --foreground: #f9fafb;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
 }
 
 @layer base {
@@ -205,6 +211,9 @@
   
   body {
     @apply bg-background text-foreground;
+  }
+  [data-sonner-toast] {
+    font-family: var(--font-dana) !important;
   }
   .container {
     @apply w-full px-5 md:mx-auto md:px-13 max-w-[1440px]!;

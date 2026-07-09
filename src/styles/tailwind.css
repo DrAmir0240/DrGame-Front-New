@@ -10,6 +10,8 @@
   --font-poppins: var(--font-poppins);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary-50: #fff6f0;
   --color-primary-100: #ffead6;
   --color-primary-200: #ffd0ad;
@@ -104,6 +106,8 @@
 :root {
   --background: #f9fafb;
   --foreground: #0f1115;
+  --popover: #ffffff;
+  --popover-foreground: #0f1115;
   --primary-50: #fff6f0;
   --primary-100: #ffead6;
   --primary-200: #ffd0ad;
@@ -180,6 +184,8 @@
 .dark {
   --background: #0f1115;
   --foreground: #f9fafb;
+  --popover: #1f2937;
+  --popover-foreground: #f9fafb;
 }
 
 @layer base {

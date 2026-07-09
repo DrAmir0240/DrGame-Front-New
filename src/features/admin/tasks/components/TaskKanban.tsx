@@ -17,10 +17,11 @@ interface Props {
   tasks: Task[];
   isLoading: boolean;
   onStatusChange: (task: Task, status: TaskStatus) => void;
-  onDelete: (id: string) => void;
+  onEdit: (task: Task) => void;
+  onDelete: (id: string, type?: string) => void;
 }
 
-export default function TaskKanban({ tasks, isLoading, onStatusChange, onDelete }: Props) {
+export default function TaskKanban({ tasks, isLoading, onStatusChange, onEdit, onDelete }: Props) {
   const grouped: Record<TaskStatus, Task[]> = {
     todo: tasks.filter(t => t.status === "todo"),
     in_progress: tasks.filter(t => t.status === "in_progress"),
@@ -57,11 +58,11 @@ export default function TaskKanban({ tasks, isLoading, onStatusChange, onDelete 
             </div>
             <div className="space-y-2 min-h-[200px]">
               {colTasks.length === 0 ? (
-                <div className="flex items-center justify-center h-24 border-2 border-dashed border-muted rounded-xl">
+                <div className="flex items-center justify-center h-24 border-2 border-dashed border-neutral-200 rounded-xl">
                   <p className="text-xs text-muted-foreground">خالی</p>
                 </div>
               ) : colTasks.map(task => (
-                <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onDelete={onDelete} />
+                <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} />
               ))}
             </div>
           </div>

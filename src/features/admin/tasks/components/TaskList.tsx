@@ -11,10 +11,11 @@ interface Props {
   tasks: Task[];
   isLoading: boolean;
   onStatusChange: (task: Task, status: TaskStatus) => void;
-  onDelete: (id: string) => void;
+  onEdit: (task: Task) => void;
+  onDelete: (id: string, type?: string) => void;
 }
 
-export default function TaskList({ tasks, isLoading, onStatusChange, onDelete }: Props) {
+export default function TaskList({ tasks, isLoading, onStatusChange, onEdit, onDelete }: Props) {
   const [search, setSearch] = useState("");
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -54,7 +55,7 @@ export default function TaskList({ tasks, isLoading, onStatusChange, onDelete }:
         {filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">تسکی یافت نشد</p>
         ) : filtered.map(task => (
-          <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onDelete={onDelete} />
+          <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} />
         ))}
       </div>
     </div>

@@ -5,19 +5,19 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
+    "x-api-key": process.env.NEXT_PUBLIC_X_API_KEY,
   },
 });
 
 api.interceptors.request.use(
   (config) => {
-    config.headers["x-api-key"] = process.env.NEXT_PUBLIC_X_API_KEY;
-    config.headers["X-API-Key"] = process.env.NEXT_PUBLIC_X_API_KEY;
     const token = getCookie("access_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log("[API Request]", config.url, config.headers);
+    if (config.data instanceof FormData) {
+      delete config.headers["Content-Type"];
+    }
     return config;
   },
   (error) => {

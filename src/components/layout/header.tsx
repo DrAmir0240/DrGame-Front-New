@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Bell, Search, User, LogOut, Settings, UserCircle } from "lucide-react";
 
 import {
@@ -13,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui";
 import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
+import { getImageUrl } from "@/lib/utils";
 
 
 export default function Header() {
@@ -45,7 +45,7 @@ export default function Header() {
             <Button variant="ghost" className="gap-2 pr-2">
               {user?.user_pic ? (
                 <img
-                  src={user.user_pic}
+                  src={getImageUrl(user.user_pic)}
                   alt={user.user_name}
                   className="w-8 h-8 rounded-full object-cover"
                 />

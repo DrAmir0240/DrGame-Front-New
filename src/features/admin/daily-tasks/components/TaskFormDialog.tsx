@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Dialog, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
 import { PersianDatePicker } from "@/components/shared";
-import type { Task } from "../types";
-import { useTaskChoices } from "../apis";
-import VoiceRecorder from "./VoiceRecorder";
+import type { Task } from "../../tasks/types";
+import { useDailyTaskChoices } from "../apis";
+import VoiceRecorder from "../../tasks/components/VoiceRecorder";
 
 interface FormValues {
   title: string;
@@ -30,8 +30,8 @@ interface Props {
   defaultType?: "Personal" | "Organize";
 }
 
-export default function TaskFormDialog({ open, onClose, onSubmit, isPending, editTask, defaultType = "Personal" }: Props) {
-  const { data: choices } = useTaskChoices();
+export default function DailyTaskFormDialog({ open, onClose, onSubmit, isPending, editTask, defaultType = "Personal" }: Props) {
+  const { data: choices } = useDailyTaskChoices();
   const isOrganize = defaultType === "Organize";
   const [voiceFile, setVoiceFile] = useState<File | null>(null);
 
@@ -96,7 +96,6 @@ export default function TaskFormDialog({ open, onClose, onSubmit, isPending, edi
       status: editTask ? undefined : "planed",
       voice: voiceFile,
     };
-    console.log(payload)
     if (isOrganize) {
       payload.employee = values.employee ? Number(values.employee) : undefined;
       payload.has_reward = values.has_reward;
@@ -110,22 +109,21 @@ export default function TaskFormDialog({ open, onClose, onSubmit, isPending, edi
     <Dialog
       open={open}
       onOpenChange={(v) => !v && onClose()}
-      title={editTask ? "ویرایش تسک" : isOrganize ? "تسک سازمانی جدید" : "تسک جدید"}
+      title={editTask ? "ویرایش وظیفه روزانه" : isOrganize ? "وظیفه روزانه سازمانی جدید" : "وظیفه روزانه جدید"}
       className="max-w-md"
       footer={
         <>
           <Button type="button" variant="outline" onClick={onClose}>انصراف</Button>
-          <Button type="submit" form="task-form" disabled={isPending}>
+          <Button type="submit" form="daily-task-form" disabled={isPending}>
             {editTask ? "ذخیره" : "ایجاد"}
           </Button>
         </>
       }
     >
-      <form id="task-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
+      <form id="daily-task-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
         <Input
-          id="task-title"
+          id="daily-task-title"
           label="عنوان"
-          
           error={errors.title?.message}
           {...register("title", { required: "عنوان الزامی است" })}
         />
@@ -179,18 +177,18 @@ export default function TaskFormDialog({ open, onClose, onSubmit, isPending, edi
             </div>
             <div className="flex items-center gap-2">
               <input
-                id="has-reward"
+                id="daily-has-reward"
                 type="checkbox"
                 {...register("has_reward")}
                 className="h-4 w-4 rounded border-neutral-300 text-secondary-600 focus:ring-secondary-500"
               />
-              <label htmlFor="has-reward" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              <label htmlFor="daily-has-reward" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
                 دارای پاداش
               </label>
             </div>
             {hasReward && (
               <Input
-                id="reward-amount"
+                id="daily-reward-amount"
                 label="مبلغ پاداش"
                 type="number"
                 {...register("reward_amount")}

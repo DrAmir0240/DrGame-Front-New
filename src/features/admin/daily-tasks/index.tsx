@@ -5,27 +5,36 @@ import { PageHeader, ConfirmModal } from "@/components/shared";
 import { Button, toast } from "@/components/ui";
 import { Plus, Building2 } from "lucide-react";
 import moment from "moment";
-import type { Task, TaskStatus } from "./types";
-import { useTaskList, useUpdateTaskStatus, useCreatePersonalTask, useCreateOrganizeTask, useUpdatePersonalTask, useUpdateOrganizeTask, useDeletePersonalTask, useDeleteOrganizeTask } from "./apis";
-import TaskStats from "./components/TaskStats";
-import TaskKanban from "./components/TaskKanban";
-import TaskList from "./components/TaskList";
-import TaskFormDialog from "./components/TaskFormDialog";
+import type { Task, TaskStatus } from "../tasks/types";
+import {
+  useDailyTaskList,
+  useUpdateDailyTaskStatus,
+  useCreateDailyPersonalTask,
+  useCreateDailyOrganizeTask,
+  useUpdateDailyPersonalTask,
+  useUpdateDailyOrganizeTask,
+  useDeleteDailyPersonalTask,
+  useDeleteDailyOrganizeTask,
+} from "./apis";
+import TaskStats from "../tasks/components/TaskStats";
+import TaskKanban from "../tasks/components/TaskKanban";
+import TaskList from "../tasks/components/TaskList";
+import DailyTaskFormDialog from "./components/TaskFormDialog";
 
-export default function TasksPage() {
+export default function DailyTasksPage() {
   const [open, setOpen] = useState(false);
   const [formType, setFormType] = useState<"Personal" | "Organize">("Personal");
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [view, setView] = useState("kanban");
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; type?: string; title?: string } | null>(null);
-  const { data: tasks = [], isLoading } = useTaskList();
-  const updateStatus = useUpdateTaskStatus();
-  const createPersonalTask = useCreatePersonalTask();
-  const createOrganizeTask = useCreateOrganizeTask();
-  const updatePersonalTask = useUpdatePersonalTask();
-  const updateOrganizeTask = useUpdateOrganizeTask();
-  const deletePersonalTask = useDeletePersonalTask();
-  const deleteOrganizeTask = useDeleteOrganizeTask();
+  const { data: tasks = [], isLoading } = useDailyTaskList();
+  const updateStatus = useUpdateDailyTaskStatus();
+  const createPersonalTask = useCreateDailyPersonalTask();
+  const createOrganizeTask = useCreateDailyOrganizeTask();
+  const updatePersonalTask = useUpdateDailyPersonalTask();
+  const updateOrganizeTask = useUpdateDailyOrganizeTask();
+  const deletePersonalTask = useDeleteDailyPersonalTask();
+  const deleteOrganizeTask = useDeleteDailyOrganizeTask();
 
   function handleOpenCreate(type: "Personal" | "Organize") {
     setEditTask(null);
@@ -65,7 +74,6 @@ export default function TasksPage() {
         }
       }
       if (res?.status === 200) setOpen(false);
-      console.log(res);
     } catch (err: any) {
       if (err?.response?.status === 400) {
         toast.error("اطلاعات را به درستی وارد کنید");
@@ -99,7 +107,7 @@ export default function TasksPage() {
 
   return (
     <div>
-      <PageHeader title="تسک‌ها و وظایف" description={`${inProgress} درحال انجام · ${overdue} سررسیدشده`}>
+      <PageHeader title="وظایف روزانه" description={`${inProgress} درحال انجام · ${overdue} سررسیدشده`}>
         <div className="flex gap-2">
           <div className="flex border border-neutral-200 rounded-lg overflow-hidden">
             <Button
@@ -118,10 +126,10 @@ export default function TasksPage() {
             </Button>
           </div>
           <Button onClick={() => handleOpenCreate("Personal")} className="gap-2">
-            <Plus className="w-4 h-4" /> تسک جدید
+            <Plus className="w-4 h-4" /> وظیفه جدید
           </Button>
           <Button onClick={() => handleOpenCreate("Organize")} variant="outline" className="gap-2">
-            <Building2 className="w-4 h-4" /> تسک سازمانی
+            <Building2 className="w-4 h-4" /> وظیفه سازمانی
           </Button>
         </div>
       </PageHeader>
@@ -146,7 +154,7 @@ export default function TasksPage() {
         />
       )}
 
-      <TaskFormDialog
+      <DailyTaskFormDialog
         open={open}
         onClose={() => setOpen(false)}
         onSubmit={handleSubmit}
