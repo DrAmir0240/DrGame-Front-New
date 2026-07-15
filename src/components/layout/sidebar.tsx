@@ -72,8 +72,9 @@ const menuItems = [
     label: "مالی و گزارشات",
     icon: BarChart3,
     children: [
-      { label: "گزارشات مالی", path: "/reports" },
-      { label: "حسابداری و دفتر", path: "/accounting" },
+      { label: "گزارشات مالی", path: "/admin/accounting/reports" },
+      { label: "دفتر روزانه", path: "/admin/accounting/daily" },
+      { label: "حسابداری", path: "/admin/accounting" },
       { label: "هزینه‌ها", path: "/expenses" },
     ],
   },
