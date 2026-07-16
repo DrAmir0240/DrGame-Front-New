@@ -37,11 +37,10 @@ const menuItems = [
     label: "انبارداری",
     icon: Package,
     children: [
-      { label: "محصولات", path: "/products" },
-      { label: "دسته‌بندی‌ها", path: "/categories" },
-      { label: "موجودی انبار", path: "/stock" },
-      { label: "گردش انبار", path: "/stock-movements" },
-      { label: "انتقال بین شعبه", path: "/transfers" },
+      { label: "کالاها", path: "/admin/inventory/products" },
+      { label: "تامین‌کنندگان", path: "/admin/inventory/suppliers" },
+      { label: "دسته‌بندی‌ها", path: "/admin/inventory/categories" },
+      { label: "گردش انبار", path: "/admin/inventory/movements" },
     ],
   },
   {
