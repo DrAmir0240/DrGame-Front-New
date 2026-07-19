@@ -78,13 +78,10 @@ const menuItems = [
     ],
   },
   {
-    label: "مشتریان (CRM)",
+    label: "باشگاه مشتریان (CRM)",
     icon: HeartHandshake,
     children: [
-      { label: "لیست مشتریان", path: "/customers" },
-      { label: "مشتریان B2B", path: "/customers/b2b" },
-      { label: "کیف پول", path: "/wallet" },
-      { label: "مدیریت CRM", path: "/crm" },
+      { label: "مدیریت CRM", path: "/admin/crm" },
     ],
   },
   { label: "خرید و تأمین", icon: ShoppingBag, path: "/procurement" },
