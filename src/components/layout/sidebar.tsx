@@ -85,13 +85,12 @@ const menuItems = [
     ],
   },
   { label: "خرید و تأمین", icon: ShoppingBag, path: "/procurement" },
-  { label: "کارکنان", icon: UserCog, path: "/staff" },
   {
     label: "منابع انسانی",
     icon: Users2,
     children: [
-      { label: "داشبورد HR", path: "/hr" },
-      { label: "استخدام", path: "/recruitment" },
+      { label: "پرونده کارمندان", path: "/admin/hr/employees" },
+      { label: "مدیریت منابع انسانی", path: "/admin/hr/management" },
     ],
   },
 

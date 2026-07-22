@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import type { TextareaProps } from "./types";
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, label, id, ...props }, ref) => {
+  ({ className, label, error, id, ...props }, ref) => {
     return (
       <div className="space-y-2">
         {label && (
@@ -20,11 +20,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={id}
           ref={ref}
           className={cn(
-            "flex min-h-[60px] w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+            "flex min-h-[60px] w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
             className,
+            error && "border-error-500 focus-visible:ring-error-500"
           )}
           {...props}
         />
+        {error && <p className="text-xs text-error-500">{error}</p>}
       </div>
     );
   },

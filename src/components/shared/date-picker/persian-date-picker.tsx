@@ -8,6 +8,7 @@ interface Props {
   value?: string;
   onChange?: (gregorianDate: string) => void;
   label?: string;
+  placeholder?: string;
   required?: boolean;
 }
 
@@ -24,7 +25,7 @@ function fromDateValue(date: any): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-export default function PersianDatePicker({ value, onChange, label, required }: Props) {
+export default function PersianDatePicker({ value, onChange, label, placeholder, required }: Props) {
   return (
     <div className="space-y-2">
       {label && (
@@ -39,8 +40,9 @@ export default function PersianDatePicker({ value, onChange, label, required }: 
         value={toDateValue(value || "")}
         onChange={(d) => onChange?.(fromDateValue(d))}
         format="YYYY/MM/DD"
+        placeholder={placeholder}
         containerClassName="w-full"
-        inputClass="flex h-9 w-full rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
+        inputClass="flex h-9 w-full rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm  transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
       />
     </div>
   );
