@@ -8,7 +8,7 @@ import { Badge, Button } from "@/components/ui";
 import { DataTable, DataTableColumn } from "@/components/shared";
 import { StatusBadge } from "@/components/shared";
 import type { Branch, Customer, Order } from "../types";
-import {  orderTypeLabels } from "../constants";
+import { legacyOrderTypeLabels as orderTypeLabels } from "../constants";
 import { formatPrice } from "@/utils/format";
 
 interface Props {

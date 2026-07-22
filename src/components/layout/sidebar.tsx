@@ -56,9 +56,10 @@ const menuItems = [
     label: "سفارش‌ها",
     icon: ShoppingCart,
     children: [
-      { label: "لیست سفارش‌ها", path: "/admin/orders" },
-      { label: "ثبت سفارش جدید", path: "/admin/orders/new" },
-      { label: "پرداخت‌ها", path: "/admin/payments" },
+      { label: "کانفیگ سفارشات", path: "/admin/orders/config" },
+      { label: "سفارشات اکانت سونی", path: "/admin/orders/sony-account" },
+      { label: "سفارشات کالا", path: "/admin/orders/product" },
+      { label: "سفارشات تعمیرات", path: "/admin/orders/repair" },
     ],
   },
   {

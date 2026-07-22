@@ -2,7 +2,7 @@
 
 import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
-import { orderTypeLabels } from "../../../constants";
+import { legacyOrderTypeLabels as orderTypeLabels } from "../../../constants";
 import type { Branch, Customer, OrderForm } from "../../../types";
 
 interface Props {

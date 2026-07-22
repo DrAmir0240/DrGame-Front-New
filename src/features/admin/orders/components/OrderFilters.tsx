@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
-import { orderTypeLabels, statusFilterOptions } from "../constants";
+import { legacyOrderTypeLabels, statusFilterOptions } from "../constants";
 
 interface Props {
   search: string;
@@ -32,7 +32,7 @@ export default function OrderFilters({ search, filterType, filterStatus, onSearc
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">همه انواع</SelectItem>
-          {Object.entries(orderTypeLabels).map(([key, label]) => (
+          {Object.entries(legacyOrderTypeLabels).map(([key, label]) => (
             <SelectItem key={key} value={key}>{label}</SelectItem>
           ))}
         </SelectContent>
