@@ -117,7 +117,7 @@ const menuItems = [
     icon: Globe,
     children: [
       { label: "محتوای سایت", path: "/content" },
-      { label: "اسناد و دارایی‌ها", path: "/documents" },
+      { label: "اسناد و دارایی‌ها", path: "/admin/docs" },
     ],
   },
   { label: "اعلان‌ها", icon: Bell, path: "/notifications" },
