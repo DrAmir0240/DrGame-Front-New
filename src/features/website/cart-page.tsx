@@ -1,7 +1,6 @@
 "use client";
 
 import { Trash2, ShoppingBag, Gamepad2, ArrowLeft, Minus, Plus, HardDrive, AlertCircle } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { getImageUrl } from "@/lib/utils";
@@ -53,12 +52,12 @@ export function CartPage() {
             محصولات و بازی‌های مورد نظر خود را به سبد خرید اضافه کنید
           </p>
           <div className="flex items-center justify-center gap-3">
-            <Link href="/products">
-              <Button variant="outline">فروشگاه کالا</Button>
-            </Link>
-            <Link href="/games">
-              <Button>فروشگاه بازی</Button>
-            </Link>
+            <Button variant="outline" href="/products">
+              فروشگاه کالا
+            </Button>
+            <Button href="/games">
+              فروشگاه بازی
+            </Button>
           </div>
         </div>
       ) : (
@@ -217,12 +216,10 @@ export function CartPage() {
               </div>
             )}
 
-            <Link href="/products">
-              <Button variant="outline" className="w-full gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                ادامه خرید
-              </Button>
-            </Link>
+            <Button variant="outline" href="/products" className="w-full gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              ادامه خرید
+            </Button>
           </div>
         </div>
       )}

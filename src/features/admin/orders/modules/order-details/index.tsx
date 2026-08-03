@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui";
 import { PageHeader } from "@/components/shared";
@@ -29,11 +28,9 @@ export default function OrderDetailPage() {
   return (
     <div className="space-y-6">
       <PageHeader title={`سفارش ${order.orderNumber || order.id.slice(-6)}`}>
-        <Link href="/admin/orders">
-          <Button variant="outline" className="gap-2">
-            <ArrowRight className="w-4 h-4" /> بازگشت
-          </Button>
-        </Link>
+        <Button variant="outline" href="/admin/orders" className="gap-2">
+          <ArrowRight className="w-4 h-4" /> بازگشت
+        </Button>
       </PageHeader>
 
       <Card className="rounded-2xl">

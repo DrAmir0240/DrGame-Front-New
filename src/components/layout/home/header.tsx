@@ -69,22 +69,21 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              asChild
+              href="/cart"
+              aria-label="سبد خرید"
               className="relative"
             >
-              <Link href="/cart" aria-label="سبد خرید">
-                <ShoppingCart className="w-7 h-7" />
+              <ShoppingCart className="w-7 h-7" />
 
-                {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-error rounded-full text-[10px] text-white flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-error rounded-full text-[10px] text-white flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </Button>
 
-            <Button asChild className="hidden sm:inline-flex">
-              <Link href="/login">ورود / ثبت‌نام</Link>
+            <Button href="/login" className="hidden sm:inline-flex">
+              ورود / ثبت‌نام
             </Button>
 
             <Button

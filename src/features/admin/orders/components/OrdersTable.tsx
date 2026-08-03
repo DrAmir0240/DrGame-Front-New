@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import moment from "moment";
-import Link from "next/link";
 import { Eye } from "lucide-react";
 import { Badge, Button } from "@/components/ui";
 import { DataTable, DataTableColumn } from "@/components/shared";
@@ -78,11 +77,9 @@ export default function OrdersTable({ orders, branches, customers, search, filte
     {
       header: "",
       render: (row) => (
-        <Link href={`/admin/orders/${row.id}`}>
-          <Button variant="ghost" size="icon">
-            <Eye className="h-4 w-4" />
-          </Button>
-        </Link>
+        <Button variant="ghost" size="icon" href={`/admin/orders/${row.id}`}>
+          <Eye className="h-4 w-4" />
+        </Button>
       ),
     },
   ];
