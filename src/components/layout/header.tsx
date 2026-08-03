@@ -1,84 +1,130 @@
 "use client";
 
-import { Bell, Search, User, LogOut, Settings, UserCircle } from "lucide-react";
+import Link from "next/link";
+import { Gamepad2, Menu, X, Sun, Moon, ShoppingCart } from "lucide-react";
+import { useState } from "react";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import { NavLink } from "@/features/landing/types";
 
-import {
-  Button,
-  Input,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui";
-import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
-import { getImageUrl } from "@/lib/utils";
+export const navLinks: NavLink[] = [
+  { label: "خانه", href: "/" },
+  { label: "فروشگاه", href: "/products" },
+  { label: "بازی‌ها", href: "/games" },
+  { label: "درباره ما", href: "/about-us" },
+];
 
-
-export default function Header() {
-  const { data: user } = useGetAuthQuery();
+export const  Header = ()=> {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
 
   return (
-    <header className="h-16 border-b border-neutral-200 bg-neutral-0 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-30">
-      <div className="flex items-center gap-4 flex-1">
-        <div className="relative max-w-md w-full hidden md:block">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-800">
+      <div className="container">
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-lg shadow-primary-500/25">
+              <Gamepad2 className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold text-lg text-foreground">
+              دکتر<span className="text-primary-500">گیم</span>
+            </span>
+          </Link>
 
-          <Input
-            placeholder="جستجو..."
-            className="pr-10 bg-neutral-100 shadow-none border-none focus-visible:ring-1"
-          />
+          <div className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname?.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm transition-colors ${
+                    isActive
+                      ? "text-primary-600 dark:text-primary-400 font-medium"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/cart" className="relative text-muted-foreground hover:text-foreground p-2 transition-colors">
+              <ShoppingCart className="w-5 h-5" />
+            </Link>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 relative flex items-center justify-center rounded-lg border border-neutral-400 dark:border-neutral-600 hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+            >
+              <Sun className="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </button>
+            <Link
+              href="/login"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2"
+            >
+              ورود
+            </Link>
+            <Link
+              href="/login"
+              className="text-sm bg-primary-600 hover:bg-primary-500 text-white px-5 py-2 rounded-lg transition-all shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40"
+            >
+              ثبت‌نام
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2 md:hidden">
+            <Link href="/cart" className="relative text-muted-foreground hover:text-foreground">
+              <ShoppingCart className="w-5 h-5" />
+            </Link>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 relative flex items-center justify-center rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground"
+            >
+              <Sun className="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </button>
+            <button
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+
+        {mobileOpen && (
+          <div className="md:hidden pb-4 border-t border-border mt-2 pt-4 space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-3 border-t border-border flex flex-col gap-2">
+              <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground py-2">
+                ورود
+              </Link>
+              <Link
+                href="/login"
+                className="text-sm bg-primary-600 hover:bg-primary-500 text-white px-5 py-2.5 rounded-lg text-center"
+              >
+                ثبت‌نام
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="w-5 h-5" />
-
-          <span className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-error rounded-full text-[10px] text-white flex items-center justify-center">
-            ۳
-          </span>
-        </Button>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="gap-2 pr-2">
-              {user?.user_pic ? (
-                <img
-                  src={getImageUrl(user.user_pic)}
-                  alt={user.user_name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                  <User className="w-4 h-4 text-primary" />
-                </div>
-              )}
-              <span className="text-sm hidden sm:inline">
-                {user?.user_name || user?.phone}
-              </span>
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuItem className="gap-2">
-              <UserCircle className="w-4 h-4" />
-              پروفایل
-            </DropdownMenuItem>
-            <DropdownMenuItem className="gap-2">
-              <Settings className="w-4 h-4" />
-              تنظیمات
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem className="text-error gap-2">
-              <LogOut className="w-4 h-4" />
-              خروج
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </header>
+    </nav>
   );
 }

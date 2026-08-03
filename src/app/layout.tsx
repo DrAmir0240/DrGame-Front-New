@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import { PhoneProvider } from "@/contexts/PhoneContext";
 import { ToasterProvider } from "@/providers/ToasterProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Dr Game | دکتر گیم",
@@ -15,11 +16,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={dana.variable}>
+    <html lang="fa" dir="rtl" className={dana.variable} suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
-        <QueryProvider><PhoneProvider>{children}</PhoneProvider></QueryProvider>
-        <ToasterProvider />
-        </body>
+        <ThemeProvider>
+          <QueryProvider>
+            <PhoneProvider>{children}</PhoneProvider>
+          </QueryProvider>
+          <ToasterProvider />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

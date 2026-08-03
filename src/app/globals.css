@@ -189,10 +189,28 @@
 }
 
 .dark {
-  --background: #0f1115;
+  --background: #0a0118;
   --foreground: #f9fafb;
+  --card: #110a20;
+  --card-foreground: #f9fafb;
+  --muted: #1a1030;
+  --muted-foreground: #9ca3af;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
+}
+
+:root {
+  --card: #ffffff;
+  --card-foreground: #0f1115;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+}
+
+@theme inline {
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 }
 
 @layer base {
@@ -218,4 +236,5 @@
   .container {
     @apply w-full px-5 md:mx-auto md:px-13 max-w-[1440px]!;
   }
+  
 }
