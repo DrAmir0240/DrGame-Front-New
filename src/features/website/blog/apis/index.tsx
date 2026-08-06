@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/api/api";
 import type { BlogCategory, BlogPost, BlogPostImage } from "../types";
+import { PaginatedResponse } from "@/features/admin/website-home/types";
 
 function buildParams(filters?: Record<string, unknown>) {
   const params: Record<string, string> = {};
@@ -33,14 +34,16 @@ export function useBlogCategories() {
 export function useBlogPosts(filters?: {
   category?: number | string;
   author?: number | string;
+  page?: number;
 }) {
-  return useQuery<BlogPost[]>({
+  return useQuery({
     queryKey: ["website", "blog", "posts", filters],
-    queryFn: async () => {
+    queryFn: async (): Promise<PaginatedResponse<BlogPost>> => {
       const params = buildParams(filters as Record<string, unknown>);
-      const { data } = await api.get<BlogPost[]>("/website/blog/", {
-        params,
-      });
+      const { data } = await api.get<PaginatedResponse<BlogPost>>(
+        "/website/blog/",
+        { params }
+      );
       return data;
     },
   });

@@ -26,6 +26,7 @@ import {
   HeartHandshake,
   Users2,
   Globe,
+  BookOpen,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -47,9 +48,9 @@ const menuItems = [
     label: "اکانت‌ها",
     icon: Gamepad2,
     children: [
-      { label: "مدیریت اکانت‌ها", path: "/admin/accounts" },
-      { label: "بازی‌ها", path: "/admin/games" },
-      { label: "لاگ فروش اکانت", path: "/admin/account-sales" },
+      { label: "مدیریت اکانت‌ها", path: "/admin/psn/accounts" },
+      { label: "دسته بندی اکانت‌", path: "/admin/psn/account-categories" },
+      { label: "وضعیت اکانت ها", path: "/admin/psn/account-statuses" },
     ],
   },
   {
@@ -62,12 +63,7 @@ const menuItems = [
       { label: "سفارشات تعمیرات", path: "/admin/orders/repair" },
     ],
   },
-  {
-    label: "تعمیرات",
-    icon: Wrench,
-    path: "/admin/repairs",
-  },
-  { label: "شعبه‌ها", icon: Building2, path: "/branches" },
+ 
   {
     label: "مالی و گزارشات",
     icon: BarChart3,
@@ -75,7 +71,6 @@ const menuItems = [
       { label: "گزارشات مالی", path: "/admin/accounting/reports" },
       { label: "دفتر روزانه", path: "/admin/accounting/daily" },
       { label: "حسابداری", path: "/admin/accounting" },
-      { label: "هزینه‌ها", path: "/expenses" },
     ],
   },
   {
@@ -85,7 +80,6 @@ const menuItems = [
       { label: "مدیریت CRM", path: "/admin/crm" },
     ],
   },
-  { label: "خرید و تأمین", icon: ShoppingBag, path: "/procurement" },
   {
     label: "منابع انسانی",
     icon: Users2,
@@ -103,23 +97,36 @@ const menuItems = [
       { label: "وظایف روزانه", path: "/admin/tasks/daily" },
     ],
   },
-  {
-    label: "فروشگاه آنلاین",
-    icon: Store,
-    children: [
-      { label: "محصولات آنلاین", path: "/online-store" },
-      { label: "کدهای تخفیف", path: "/discounts" },
-    ],
-  },
-  { label: "پرونده مشتری", icon: UserCircle, path: "/customer-portal" },
-  {
-    label: "مدیریت سایت",
-    icon: Globe,
-    children: [
-      { label: "محتوای سایت", path: "/content" },
-      { label: "اسناد و دارایی‌ها", path: "/admin/docs" },
-    ],
-  },
+   { label: "استاد و دارایی ها", icon: UserCircle, path: "/admin/docs" },
+
+ {
+  label: "صفحه اصلی سایت",
+  icon: Globe,
+  children: [
+    { label: "بنرها", path: "/admin/website/banners" },
+    { label: "سکشن‌ها", path: "/admin/website/sections" },
+    { label: "درباره ما", path: "/admin/website/about-us" },
+  ],
+},
+{
+  label: "فروشگاه آنلاین",
+  icon: Store,
+  children: [
+    { label: "محصولات", path: "/admin/store/products" },
+    { label: "دسته‌بندی کالا", path: "/admin/store/product-categories" },
+    { label: "بازی‌ها", path: "/admin/store/games" },
+    { label: "دسته‌بندی بازی", path: "/admin/store/game-categories" },
+  ],
+},
+{
+  label: "محتوای سایت",
+  icon: BookOpen, 
+  children: [
+    { label: "بلاگ", path: "/admin/blog" },
+    { label: "دسته‌بندی بلاگ", path: "/admin/website/blog-categories" },
+    { label: "ویدیوها", path: "/admin/website/videos" },
+  ],
+},
   { label: "اعلان‌ها", icon: Bell, path: "/notifications" },
   { label: "تنظیمات", icon: Settings, path: "/settings" },
 ];
@@ -141,7 +148,7 @@ function SidebarItem({ item, collapsed }: any) {
         <button
           onClick={() => setOpen(!open)}
           className={cn(
-            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all",
+            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all cursor-pointer",
             "hover:bg-sidebar-accent",
             open || isChildActive
               ? "text-neutral-0 bg-[#211736]"

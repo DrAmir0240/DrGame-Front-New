@@ -1,4 +1,4 @@
-import { GamesPage } from "@/features/website/games-page";
+import { GamesPage } from "@/features/website/modules/games";
 
 export default function Games() {
   return <GamesPage />;

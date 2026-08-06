@@ -30,7 +30,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (originalRequest.url?.includes("/accounts/refresh-token/")) {
+    if (originalRequest.url?.includes("/users/refresh-token/")) {
       console.error("Refresh token request failed");
       redirectToLogin();
       return Promise.reject(error);
@@ -43,7 +43,7 @@ api.interceptors.response.use(
         console.log("Attempting to refresh token using HTTP-only cookie...");
 
         const refreshResponse = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}accounts/refresh-token/`,
+          `${process.env.NEXT_PUBLIC_API_URL}/users/refresh-token/`,
           {refresh: refresh},
           {
             headers: {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, Gamepad2, Package, FileText } from "lucide-react";
-import { useSections, useSectionItems } from "@/features/website/hooks";
+import { useSections, useSectionItems } from "@/features/website/apis";
 import { getImageUrl } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import type { Section, SectionItem } from "@/features/website/types";

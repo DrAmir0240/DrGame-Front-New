@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui";
-import { ConfirmModal } from "@/components/shared";
+import { ConfirmModal, PageHeader } from "@/components/shared";
 import api from "@/api/api";
 import type { Product, ProductChoices, ProductStats } from "./types";
 import type { PaginatedResponse } from "../shared/types";
@@ -45,9 +45,7 @@ export default function ProductsPage() {
 
   const fetchChoices = useCallback(async () => {
     try {
-      const res = await api.get<ProductChoices>(
-        "/inventory/products/choices/"
-      );
+      const res = await api.get<ProductChoices>("/inventory/products/choices/");
       setChoices(res.data);
     } catch (err) {
       console.error(err);
@@ -67,7 +65,7 @@ export default function ProductsPage() {
 
       const res = await api.get<PaginatedResponse<Product>>(
         "/inventory/products/",
-        { params }
+        { params },
       );
       setProducts(res.data.results);
       setCount(res.data.count);
@@ -147,6 +145,8 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-4">
+      <PageHeader title="کالاها" description="مدیریت کالاهای انبار" />
+
       <ProductStatsCards stats={stats} isLoading={isLoadingStats} />
 
       <div className="flex justify-end">

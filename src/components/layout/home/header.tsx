@@ -7,7 +7,7 @@ import { Gamepad2, Menu, ShoppingCart, X } from "lucide-react";
 
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { useProductCart, useGameCart } from "@/features/website/hooks";
+import { useProductCart, useGameCart } from "@/features/website/apis";
 
 const navItems = [
   { label: "خانه", href: "/" },

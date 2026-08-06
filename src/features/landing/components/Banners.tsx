@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, ChevronLeft, ImageIcon } from "lucide-react";
-import { useBanners } from "@/features/website/hooks";
+import { useBanners } from "@/features/website/apis";
 import { getImageUrl } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, MapPin, Phone, Mail, ShieldCheck } from "lucide-react";
-import { useAboutUs } from "@/features/website/hooks";
+import { useAboutUs } from "@/features/website/apis";
 import { getImageUrl } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 

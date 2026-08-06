@@ -1,4 +1,4 @@
-import { AboutUsPage } from "@/features/website/about-us-page";
+import { AboutUsPage } from "@/features/website/modules/about-us";
 
 export default function AboutUs() {
   return <AboutUsPage />;

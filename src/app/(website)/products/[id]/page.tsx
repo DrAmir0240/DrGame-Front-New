@@ -1,4 +1,4 @@
-import { ProductDetailPage } from "@/features/website/product-detail-page";
+import { ProductDetailPage } from "@/features/website/modules/product-detail";
 
 export default function ProductDetail() {
   return <ProductDetailPage />;

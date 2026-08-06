@@ -16,7 +16,7 @@ import { useBlogCategories, useBlogPosts } from "./apis";
 import { BlogCard } from "./components/blog-card";
 
 
-export function BlogListPage() {
+export function BlogsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [showFilters, setShowFilters] = useState(false);
