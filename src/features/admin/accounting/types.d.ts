@@ -383,3 +383,103 @@ export interface ProductReportByCategory {
   count: number;
   total_amount: number;
 }
+
+// ─── Unified Invoice (frontend_api_guide.md) ───
+
+export type OrderItemType = "sony_account" | "repair" | "product";
+
+export interface InvoiceOrderData {
+  category_id: number;
+  source?: string;
+  account_ids?: number[];
+  serial_number?: string;
+  devices?: { title: string; serial_number?: string; image?: string | null }[];
+  product_id?: number;
+}
+
+export interface CreateInvoiceItem {
+  order_type: OrderItemType;
+  title: string;
+  quantity?: number;
+  unit_price: number;
+  discount?: number;
+  order_data: InvoiceOrderData;
+}
+
+export interface CreateInvoiceFormData {
+  customer_id: number;
+  category_id: number;
+  discount?: number;
+  description?: string;
+  items: CreateInvoiceItem[];
+}
+
+export interface InvoiceItemDetail {
+  id: number;
+  title: string;
+  quantity: number;
+  unit_price: number;
+  discount: number;
+  total_price: number;
+  order_type: string;
+  order_id: number;
+}
+
+export interface EmployeeInvoice {
+  id: number;
+  account_side_id: number;
+  account_side_name: string;
+  category_id: number;
+  category_title: string;
+  amount: number;
+  discount: number;
+  paid_amount: number;
+  remaining_amount: number;
+  status: InvoiceStatus;
+  payment_status: PaymentStatus;
+  is_payroll: boolean;
+  description?: string;
+  items: InvoiceItemDetail[];
+  transaction_links: unknown[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InvoiceFilters {
+  category?: number;
+  status?: string;
+  payment_status?: string;
+  is_payroll?: boolean;
+  account_side?: number;
+}
+
+export interface CreateTransactionFormData {
+  invoice_ids: number[];
+  amount: number;
+  bank_account_id: number;
+  account_side_id: number;
+  description?: string;
+}
+
+export interface EmployeeTransaction {
+  id: number;
+  account_side_id: number;
+  account_side_name: string;
+  bank_account_id: number;
+  bank_account_name?: string;
+  amount: number;
+  direction: TransactionDirection;
+  description: string;
+  created_at: string;
+}
+
+export interface MatchedAccount {
+  id: number;
+  username: string;
+  price: number | null;
+  plus: boolean | null;
+  region: string | null;
+  status_id: number | null;
+  status_title: string | null;
+  match_count: number;
+}

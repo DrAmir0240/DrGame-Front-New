@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui";
 import { PageHeader, StatusBadge } from "@/components/shared";
-import { useDailyInvoiceDetail } from "../../apis";
+import { useInvoiceDetail } from "../../apis";
 import { formatPrice } from "@/utils/format";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 export default function InvoiceDetailPage({ id }: Props) {
   const router = useRouter();
-  const { data: invoice, isLoading } = useDailyInvoiceDetail(id);
+  const { data: invoice, isLoading } = useInvoiceDetail(id);
 
   if (isLoading) {
     return (
@@ -30,7 +30,7 @@ export default function InvoiceDetailPage({ id }: Props) {
 
   return (
     <div className="space-y-6">
-      <PageHeader title={`صورتحساب #${invoice.id}`} description={invoice.account_side?.name}>
+      <PageHeader title={`فاکتور #${invoice.id}`} description={invoice.account_side_name || "—"}>
         <Button variant="outline" onClick={() => router.back()} className="gap-2">
           <ArrowRight className="w-4 h-4" /> بازگشت
         </Button>
@@ -39,15 +39,15 @@ export default function InvoiceDetailPage({ id }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-neutral-0 border border-neutral-200 rounded-xl p-6 space-y-4">
-            <h3 className="text-lg font-semibold border-b pb-2">اطلاعات صورتحساب</h3>
+            <h3 className="text-lg font-semibold border-b pb-2">اطلاعات فاکتور</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-muted-foreground">طرف حساب:</span>
-                <p className="font-medium mt-1">{invoice.account_side?.name || "—"}</p>
+                <p className="font-medium mt-1">{invoice.account_side_name || "—"}</p>
               </div>
               <div>
                 <span className="text-muted-foreground">دسته‌بندی:</span>
-                <p className="font-medium mt-1">{invoice.category?.title || "—"}</p>
+                <p className="font-medium mt-1">{invoice.category_title || "—"}</p>
               </div>
               <div>
                 <span className="text-muted-foreground">وضعیت:</span>
@@ -58,7 +58,7 @@ export default function InvoiceDetailPage({ id }: Props) {
                 <div className="mt-1"><StatusBadge status={invoice.payment_status} /></div>
               </div>
               <div>
-                <span className="text-muted-foreground">صورتحساب حقوقی:</span>
+                <span className="text-muted-foreground">فاکتور حقوقی:</span>
                 <p className="font-medium mt-1">{invoice.is_payroll ? "بله" : "خیر"}</p>
               </div>
               <div>
@@ -86,6 +86,7 @@ export default function InvoiceDetailPage({ id }: Props) {
                       <p className="text-sm text-muted-foreground">
                         {item.quantity} × {formatPrice(item.unit_price)}
                         {item.discount > 0 && ` (تخفیف: ${formatPrice(item.discount)})`}
+                        <span className="text-xs text-neutral-400 mx-2">سفارش: {item.order_type} #{item.order_id}</span>
                       </p>
                     </div>
                     <span className="font-bold">{formatPrice(item.total_price)}</span>

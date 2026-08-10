@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowRight, ShoppingCart, HardDrive, Users, Plus, Check } from "lucide-react";
 import { Button, Badge } from "@/components/ui";
@@ -13,9 +14,15 @@ export function GameDetailPage() {
   const router = useRouter();
   const id = Number(params.id);
 
+  const [activeImage, setActiveImage] = useState(0);
+
   const { data: game, isLoading } = useGameDetail(id);
   const { data: images } = useGameImages(id);
   const addToCart = useAddToGameCart();
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [game?.id]);
 
   if (isLoading) {
     return (
@@ -50,8 +57,11 @@ export function GameDetailPage() {
     allImages.unshift(game.main_img);
   }
 
+  const displayImage =
+    allImages[Math.min(activeImage, allImages.length - 1)] || allImages[0] || "";
+
   const handleAddToCart = () => {
-    addToCart.mutate(game.id);
+    addToCart.mutateAsync(game.id).then(() => router.push("/cart"));
   };
 
   return (
@@ -68,7 +78,7 @@ export function GameDetailPage() {
         <div className="space-y-4">
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
             <img
-              src={getImageUrl(allImages[0] || "")}
+              src={getImageUrl(displayImage)}
               alt={game.title}
               className="w-full h-full object-cover"
             />
@@ -76,16 +86,22 @@ export function GameDetailPage() {
           {allImages.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
               {allImages.map((img, i) => (
-                <div
+                <button
                   key={i}
-                  className="w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800"
+                  type="button"
+                  onClick={() => setActiveImage(i)}
+                  className={`w-20 h-20 rounded-xl overflow-hidden shrink-0 border-2 bg-neutral-100 dark:bg-neutral-800 transition-colors ${
+                    activeImage === i
+                      ? "border-primary-500"
+                      : "border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600"
+                  }`}
                 >
                   <img
                     src={getImageUrl(img)}
                     alt={`${game.title} ${i + 1}`}
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </button>
               ))}
             </div>
           )}

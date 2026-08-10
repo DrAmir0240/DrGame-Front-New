@@ -20,6 +20,7 @@ import type {
 } from "../types";
 import type { PaginatedResponse } from "../../shared/types";
 import { formatPrice } from "@/utils/format";
+import { useProductStock } from "../apis";
 import EntityFormDialog from "./EntityFormDialog";
 
 interface Props {
@@ -165,6 +166,7 @@ export default function ProductDetailPage({
   }
 
   const stockStatus = getStockStatus(product.stock, product.min_stock);
+  const { data: stockCalc } = useProductStock(product.id);
   const categoryTitle =
     choices?.categories.find((c) => c.id === product.category)?.title || "—";
   const supplierNames = product.supplier
@@ -256,6 +258,12 @@ export default function ProductDetailPage({
                   {product.stock} — {stockStatus.label}
                 </Badge>
               </div>
+            </div>
+            <div>
+              <span className="text-xs text-muted-foreground">موجودی محاسبه‌شده (از گردش‌ها)</span>
+              <p className="text-sm font-semibold">
+                {stockCalc ? stockCalc.stock : "—"}
+              </p>
             </div>
             <div>
               <span className="text-xs text-muted-foreground">حداقل موجودی</span>

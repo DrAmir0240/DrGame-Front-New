@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Heart, Trash2, Package, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { WishlistItem } from "../types";
+import type { WishlistItem, WishlistProduct } from "../types";
 import { useRemoveFromWishlist } from "../apis";
 
 interface Props {
@@ -98,10 +98,14 @@ export function WishlistItemCard({ item }: Props) {
           <p
             className={cn(
               "mt-1 text-xs",
-              data.stock > 0 ? "text-emerald-600" : "text-rose-500"
+              (data as WishlistProduct).stock > 0
+                ? "text-emerald-600"
+                : "text-rose-500"
             )}
           >
-            {data.stock > 0 ? `موجود (${data.stock})` : "ناموجود"}
+            {(data as WishlistProduct).stock > 0
+              ? `موجود (${(data as WishlistProduct).stock})`
+              : "ناموجود"}
           </p>
         )}
 

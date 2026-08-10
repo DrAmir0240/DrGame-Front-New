@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Header from '@/components/layout/home/header';
-import Footer from '@/components/layout/home/footer';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 interface HomeLayoutProps {
   children: React.ReactNode;

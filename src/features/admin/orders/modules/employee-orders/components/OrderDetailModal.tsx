@@ -12,7 +12,7 @@ import type {
   ProductOrderDetail,
   OrderAction,
 } from "../../../types";
-import { useOrderDetail, useOrderActions, useExecuteAction, useAdvanceStage } from "../../../apis";
+import { useOrderDetail, useOrderActions, useExecuteAction, useAdvanceStage, useStageLogs } from "../../../apis";
 import { formatPrice } from "@/utils/format";
 
 interface Props {
@@ -40,6 +40,7 @@ export default function OrderDetailModal({ open, onClose, orderId, orderPrefix }
   const [activeLogTab, setActiveLogTab] = useState<"actions" | "stages">("actions");
   const { data: order, isLoading: orderLoading } = useOrderDetail(orderPrefix, open ? orderId : null);
   const { data: actions = [], isLoading: actionsLoading } = useOrderActions(orderPrefix, open ? orderId : null);
+  const { data: stageLogs = [] } = useStageLogs(orderPrefix, open ? orderId : null);
   const executeAction = useExecuteAction(orderPrefix);
   const advanceStage = useAdvanceStage(orderPrefix);
 
@@ -445,10 +446,10 @@ export default function OrderDetailModal({ open, onClose, orderId, orderPrefix }
 
             {activeLogTab === "stages" && (
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
-                {"stage_logs" in order && order.stage_logs.length === 0 && (
+                {stageLogs.length === 0 && (
                   <p className="text-xs text-muted-foreground">تاریخچه‌ای موجود نیست</p>
                 )}
-                {"stage_logs" in order && order.stage_logs.map((log) => (
+                {stageLogs.map((log) => (
                   <div key={log.id} className="text-xs flex items-start gap-2 py-1.5 border-b border-neutral-50 last:border-0">
                     <ChevronRight className="w-3 h-3 text-blue-500 mt-0.5 shrink-0" />
                     <div>

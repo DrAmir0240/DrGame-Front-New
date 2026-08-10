@@ -42,6 +42,7 @@ const menuItems = [
       { label: "تامین‌کنندگان", path: "/admin/inventory/suppliers" },
       { label: "دسته‌بندی‌ها", path: "/admin/inventory/categories" },
       { label: "گردش انبار", path: "/admin/inventory/movements" },
+      { label: "سفارش خرید", path: "/admin/inventory/purchase-orders" },
     ],
   },
   {
@@ -70,6 +71,7 @@ const menuItems = [
     children: [
       { label: "گزارشات مالی", path: "/admin/accounting/reports" },
       { label: "دفتر روزانه", path: "/admin/accounting/daily" },
+      { label: "فاکتور و تراکنش", path: "/admin/accounting/invoices" },
       { label: "حسابداری", path: "/admin/accounting" },
     ],
   },
@@ -86,6 +88,7 @@ const menuItems = [
     children: [
       { label: "پرونده کارمندان", path: "/admin/hr/employees" },
       { label: "مدیریت منابع انسانی", path: "/admin/hr/management" },
+      { label: "حقوق و دستمزد", path: "/admin/hr/payroll" },
     ],
   },
 
@@ -122,7 +125,7 @@ const menuItems = [
   label: "محتوای سایت",
   icon: BookOpen, 
   children: [
-    { label: "بلاگ", path: "/admin/blog" },
+    { label: "بلاگ", path: "/admin/website/blog" },
     { label: "دسته‌بندی بلاگ", path: "/admin/website/blog-categories" },
     { label: "ویدیوها", path: "/admin/website/videos" },
   ],
@@ -248,9 +251,9 @@ export const Sidebar = () => {
 
           {!collapsed && (
             <div>
-              <h1 className="font-bold text-sidebar-foreground text-base">
+              <Button variant="ghost" href="/" className="font-bold text-sidebar-foreground text-base p-0">
                 دکترگیم
-              </h1>
+              </Button>
               <p className="text-xs text-neutral-400">
                 سیستم مدیریت یکپارچه
               </p>

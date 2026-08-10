@@ -38,7 +38,7 @@ export interface ProductEntity {
 export interface EntityFormData {
   uni_id: string;
   color: string;
-  product: number;
+  product?: number;
   main_img: File | string | null;
 }
 

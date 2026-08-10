@@ -61,7 +61,7 @@ export default function RealAssetsSection() {
   }
 
   const columns: DataTableColumn<RealAssets>[] = [
-    { header: "#", render: (row, i) => <span className="text-neutral-400 text-xs">{(page * LIMIT) + (i ?? 0) + 1}</span> },
+    { header: "#", render: (row) => <span className="text-neutral-400 text-xs">{row.id}</span> },
     {
       header: "تصویر",
       render: (row) =>

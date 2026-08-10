@@ -59,11 +59,13 @@ export function BlogDetailView({ id }: Props) {
           </span>
           <span className="flex items-center gap-1.5">
             <Calendar className="h-4 w-4" />
-            {new Date(post.published_at).toLocaleDateString("fa-IR", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {post.published_at
+              ? new Date(post.published_at).toLocaleDateString("fa-IR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              : "-"}
           </span>
         </div>
       </div>

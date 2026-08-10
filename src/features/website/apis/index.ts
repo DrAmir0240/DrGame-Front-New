@@ -64,9 +64,7 @@ export async function fetchProductDetail(id: number): Promise<ProductDetail> {
 }
 
 export async function fetchProductImages(storeProductId: number): Promise<ProductImage[]> {
-  const { data } = await api.get("/website/products/images/", {
-    params: { store_product_id: storeProductId },
-  });
+  const { data } = await api.get(`/website/products/${storeProductId}/images/`);
   return extractArray<ProductImage>(data);
 }
 
@@ -85,9 +83,7 @@ export async function fetchGameDetail(id: number): Promise<GameDetail> {
 }
 
 export async function fetchGameImages(gameId: number): Promise<GameImage[]> {
-  const { data } = await api.get("/website/games/images/", {
-    params: { game_id: gameId },
-  });
+  const { data } = await api.get(`/website/games/${gameId}/images/`);
   return extractArray<GameImage>(data);
 }
 

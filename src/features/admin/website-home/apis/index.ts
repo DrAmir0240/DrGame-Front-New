@@ -187,7 +187,7 @@ export function useAboutUsList() {
   return useQuery<AboutUs[]>({
     queryKey: ["admin", "about-us"],
     queryFn: async () => {
-      const { data } = await api.get<AboutUs[]>(
+      const { data } = await api.get<PaginatedResponse<AboutUs>>(
         "/website/employee/about-us/"
       );
       return data.results;

@@ -16,7 +16,6 @@ import {
   ShoppingCart,
   User,
   Headset,
-
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -24,10 +23,10 @@ import { Button } from "@/components/ui";
 
 const menuItems = [
   { label: "پنل کاربری", icon: User, path: "/profile" },
-  { label: "کیف پول", icon: WalletMinimal , path: "/wallet" },
+  { label: "کیف پول", icon: WalletMinimal, path: "/wallet" },
   { label: "علاقمندی ها", icon: Star, path: "wishlist" },
   { label: "سفارشات من", icon: ShoppingCart, path: "/orders" },
-  { label: "پشتیبانی", icon: Headset , path: "/support" },
+  { label: "پشتیبانی", icon: Headset, path: "/support" },
   // {
   //   label: "انبارداری",
   //   icon: Package,
@@ -38,7 +37,6 @@ const menuItems = [
   //     { label: "گردش انبار", path: "/admin/inventory/movements" },
   //   ],
   // },
-
 ];
 
 function SidebarItem({ item, collapsed }: any) {
@@ -158,12 +156,14 @@ export const Sidebar = () => {
 
           {!collapsed && (
             <div>
-              <h1 className="font-bold text-sidebar-foreground text-base">
+              <Button
+                href="/"
+                variant="ghost"
+                className="font-bold text-sidebar-foreground text-base p-0"
+              >
                 دکترگیم
-              </h1>
-              <p className="text-xs text-neutral-400">
-                سیستم مدیریت یکپارچه
-              </p>
+              </Button>
+              <p className="text-xs text-neutral-400">سیستم مدیریت یکپارچه</p>
             </div>
           )}
         </div>

@@ -8,6 +8,7 @@ import IncomeList from "@/features/admin/accounting/components/IncomeList";
 import PayrollList from "@/features/admin/accounting/components/PayrollList";
 import PurchaseList from "@/features/admin/accounting/components/PurchaseList";
 import SalesList from "@/features/admin/accounting/components/SalesList";
+import InvoicesLedger from "@/features/admin/accounting/components/InvoicesLedger";
 
 const accountingSubTabs = [
   { value: "expense", label: "هزینه‌ها" },
@@ -32,6 +33,9 @@ export default function AccountingPage() {
           ))}
         </TabsList>
 
+        <TabsContent value="invoices">
+          <InvoicesLedger />
+        </TabsContent>
         <TabsContent value="expense">
           <ExpenseList />
         </TabsContent>
