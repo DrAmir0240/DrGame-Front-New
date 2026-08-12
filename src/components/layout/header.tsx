@@ -3,11 +3,27 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gamepad2, Menu, ShoppingCart, X } from "lucide-react";
+import {
+  Gamepad2,
+  LayoutDashboard,
+  Menu,
+  ShoppingCart,
+  User,
+  UserCircle,
+  X,
+} from "lucide-react";
 
-import { Button } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui";
+import { cn, getImageUrl } from "@/lib/utils";
 import { useProductCart, useGameCart } from "@/features/website/apis";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 
 const navItems = [
   { label: "خانه", href: "/" },
@@ -24,6 +40,10 @@ export default function Header() {
 
   const { data: productCart } = useProductCart();
   const { data: gameCart } = useGameCart();
+  const { data: auth, isLoading: authLoading } = useGetAuthQuery();
+
+  const isAuthenticated = auth?.is_authenticated === true;
+  const isMainManager = auth?.user_type === "main_manager";
 
   const cartCount =
     (productCart?.item_count ?? 0) + (gameCart?.games?.length ?? 0);
@@ -84,9 +104,62 @@ export default function Header() {
               )}
             </Button>
 
-            <Button href="/login" className="hidden sm:inline-flex">
-              ورود / ثبت‌نام
-            </Button>
+            {!authLoading && isAuthenticated && (
+              <>
+                {isMainManager && (
+                  <Button href="/admin" variant="outline" className="hidden sm:inline-flex">
+                    <LayoutDashboard className="w-4 h-4 ml-1" />
+                    پنل ادمین
+                  </Button>
+                )}
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="hidden sm:inline-flex gap-2 pr-2">
+                      {auth?.user_pic ? (
+                        <img
+                          src={getImageUrl(auth.user_pic)}
+                          alt={auth.user_name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                          <User className="w-4 h-4 text-primary" />
+                        </div>
+                      )}
+                      <span className="text-sm">{auth?.user_name || auth?.phone}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="gap-2 cursor-pointer">
+                        <UserCircle className="w-4 h-4" />
+                        پنل کاربری
+                      </Link>
+                    </DropdownMenuItem>
+
+                    {isMainManager && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="gap-2 cursor-pointer">
+                            <LayoutDashboard className="w-4 h-4" />
+                            پنل ادمین
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
+
+            {!authLoading && !isAuthenticated && (
+              <Button href="/login" className="hidden sm:inline-flex">
+                ورود / ثبت‌نام
+              </Button>
+            )}
 
             <Button
               variant="ghost"
@@ -142,13 +215,54 @@ export default function Header() {
             );
           })}
 
-          <Link
-            href="/login"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-center justify-center gap-2 mt-4 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors"
-          >
-            ورود / ثبت‌نام
-          </Link>
+          {!authLoading && isAuthenticated ? (
+            <div className="mt-4 space-y-1 border-t border-border pt-3">
+              <div className="flex items-center gap-3 px-3 py-2">
+                {auth?.user_pic ? (
+                  <img
+                    src={getImageUrl(auth.user_pic)}
+                    alt={auth.user_name}
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                )}
+                <span className="text-sm font-medium truncate">
+                  {auth?.user_name || auth?.phone}
+                </span>
+              </div>
+
+              <Link
+                href="/profile"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <UserCircle className="w-4 h-4" />
+                پنل کاربری
+              </Link>
+
+              {isMainManager && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  پنل ادمین
+                </Link>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 mt-4 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors"
+            >
+              ورود / ثبت‌نام
+            </Link>
+          )}
         </nav>
       </div>
     </>

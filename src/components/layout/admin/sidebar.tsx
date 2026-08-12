@@ -130,8 +130,23 @@ const menuItems = [
     { label: "ویدیوها", path: "/admin/website/videos" },
   ],
 },
-  { label: "اعلان‌ها", icon: Bell, path: "/notifications" },
-  { label: "تنظیمات", icon: Settings, path: "/settings" },
+  {
+    label: "تنظیمات",
+    icon: Settings,
+    children: [
+      { label: "نمای کلی", path: "/admin/settings" },
+      { label: "پرمیشن‌ها", path: "/admin/settings/permissions" },
+      { label: "نقش‌ها", path: "/admin/settings/roles" },
+      { label: "نقش‌های کارمند", path: "/admin/settings/employee-roles" },
+      { label: "دسته‌بندی سفارش سونی", path: "/admin/settings/sony-order-categories" },
+      { label: "روش‌های فروش", path: "/admin/settings/sell-methods" },
+      { label: "دسته‌بندی کالا", path: "/admin/settings/product-order-categories" },
+      { label: "دسته‌بندی تعمیر", path: "/admin/settings/repair-order-categories" },
+      { label: "بانک‌های سونی", path: "/admin/settings/sony-banks" },
+      { label: "حساب‌های بانکی", path: "/admin/settings/bank-accounts" },
+      { label: "دسته‌بندی فاکتور", path: "/admin/settings/invoice-categories" },
+    ],
+  },
 ];
 
 function SidebarItem({ item, collapsed }: any) {

@@ -1,12 +1,11 @@
 import { LucideIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   title: string;
   value: string | number;
   icon?: LucideIcon;
-  trend?: number;
+  trend?: number | null;
   trendLabel?: string;
   className?: string;
 }
@@ -30,29 +29,29 @@ export const StatCard = ({
         <div>
           <p className="text-sm text-muted-foreground">{title}</p>
 
-          <p className="text-2xl font-bold mt-1.5 font-display">
-            {value}
-          </p>
+          <p className="text-2xl font-bold mt-1.5 font-display">{value}</p>
 
-          {trend !== undefined && (
-            <p
-              className={cn(
-                "text-xs mt-2 flex items-center gap-1",
-                trend >= 0
-                  ? "text-emerald-600"
-                  : "text-destructive"
-              )}
-            >
-              <span>
-                {trend >= 0 ? "▲" : "▼"} {Math.abs(trend)}%
-              </span>
-
-              {trendLabel && (
-                <span className="text-muted-foreground">
-                  {trendLabel}
+          {(trend !== undefined || trendLabel) && (
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+              {trend !== undefined && trend !== null && (
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 font-medium",
+                    trend >= 0
+                      ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400"
+                      : "bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-400"
+                  )}
+                >
+                  {trend >= 0 ? "▲" : "▼"} {Math.abs(trend)}%
                 </span>
               )}
-            </p>
+              {trend === null && (
+                <span className="text-muted-foreground">—</span>
+              )}
+              {trendLabel && (
+                <span className="text-muted-foreground">{trendLabel}</span>
+              )}
+            </div>
           )}
         </div>
 
@@ -64,4 +63,4 @@ export const StatCard = ({
       </div>
     </div>
   );
-}
+};

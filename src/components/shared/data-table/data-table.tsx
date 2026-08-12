@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 
 export type DataTableColumn<T> = {
@@ -22,15 +23,17 @@ interface DataTableProps<T> {
   isLoading?: boolean;
   onRowClick?: (row: T) => void;
   emptyMessage?: string;
+  rowClassName?: (row: T) => string | undefined;
 }
 
 
-export const DataTable = <T extends { id?: string | number }>({
+export const DataTable = <T extends object>({
   columns,
   data,
   isLoading,
   onRowClick,
   emptyMessage = "داده‌ای یافت نشد",
+  rowClassName,
 }: DataTableProps<T>)=> {
   if (isLoading) {
     return (
@@ -80,9 +83,10 @@ export const DataTable = <T extends { id?: string | number }>({
             data.map((row, i) => (
               <TableRow
                 key={(row as any).id ?? i}
-                className={
-                  onRowClick ? "cursor-pointer hover:bg-muted/50" : ""
-                }
+                className={cn(
+                  onRowClick ? "cursor-pointer hover:bg-muted/50" : "",
+                  rowClassName?.(row)
+                )}
                 onClick={() => onRowClick?.(row)}
               >
                 {columns.map((col, j) => (
