@@ -1,14 +1,10 @@
-version: "3.8"
+# ============================================================
+# Default compose file -> production
+#   docker compose up --build -d
+#
+# Dev:
+#   docker compose -f docker-compose.dev.yml up
+# ============================================================
 
-services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://backend:8000}
-    restart: unless-stopped
+include:
+  - docker-compose.prod.yml

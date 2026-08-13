@@ -1,0 +1,44 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# next.js
+.next
+out
+build
+
+# production
+dist
+
+# git
+.git
+.gitignore
+.gitattributes
+
+# env (secrets are injected at runtime/compose)
+.env
+.env.*
+!.env.example
+
+# docker
+Dockerfile
+Dockerfile.dev
+docker-compose*.yml
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# misc
+.DS_Store
+*.pem
+*.md
+!.env.example
+.idea
+.vscode
+coverage
+.vercel
+README*
+LICENSE*
