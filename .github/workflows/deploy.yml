@@ -30,6 +30,9 @@ jobs:
           tags: ghcr.io/${{ env.REPO_LC }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_X_API_KEY=${{ secrets.NEXT_PUBLIC_X_API_KEY }}
 
   deploy:
     needs: build
