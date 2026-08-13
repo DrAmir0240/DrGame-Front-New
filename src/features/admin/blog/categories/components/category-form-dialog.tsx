@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import { Dialog } from "@/components/ui/dialog";
-import type { BlogPostCategory } from "../../types";
+import type { BlogCategory } from "../../types";
 
 interface FormValues {
   title: string;
@@ -13,7 +13,7 @@ interface FormValues {
 
 interface Props {
   open: boolean;
-  editing: BlogPostCategory | null;
+  editing: BlogCategory | null;
   loading?: boolean;
   onClose: () => void;
   onSubmit: (values: FormValues) => Promise<void>;

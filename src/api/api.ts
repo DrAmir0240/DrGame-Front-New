@@ -1,8 +1,9 @@
-import { deleteCookie, getCookie, setAccess, setCookie } from "@/utils/cookie";
+import { deleteCookie, getCookie, setAccess, setRefresh } from "@/utils/cookie";
 import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
     "x-api-key": process.env.NEXT_PUBLIC_X_API_KEY,
@@ -38,14 +39,13 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refresh = getCookie("refresh_token")
+      const refresh = getCookie("refresh_token");
       try {
-        console.log("Attempting to refresh token using HTTP-only cookie...");
-
         const refreshResponse = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/refresh-token/`,
-          {refresh: refresh},
+          `${process.env.NEXT_PUBLIC_API_URL}users/refresh-token/`,
+          { refresh_token: refresh },
           {
+            withCredentials: true,
             headers: {
               "x-api-key": process.env.NEXT_PUBLIC_X_API_KEY,
               "Content-Type": "application/json",
@@ -53,21 +53,24 @@ api.interceptors.response.use(
           }
         );
 
-        console.log("Refresh token response:", refreshResponse);
-
-        const newAccessToken = refreshResponse.data?.access;
+        const newAccessToken = refreshResponse.data?.access_token;
 
         if (!newAccessToken) {
           throw new Error("No access token in response");
         }
 
         setAccess(newAccessToken);
+        if (refreshResponse.data?.refresh_token) {
+          setRefresh(refreshResponse.data.refresh_token);
+        }
         await new Promise((r) => setTimeout(r, 50));
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshError: unknown) {
-        const err = refreshError as any;
+        const err = refreshError as {
+          response?: { status?: number; data?: unknown };
+        };
         console.error("Refresh token error:", {
           status: err.response?.status,
           data: err.response?.data,

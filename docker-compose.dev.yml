@@ -1,0 +1,24 @@
+# ============================================================
+# Development environment — hot reload
+# Usage: docker compose -f docker-compose.dev.yml up
+# ============================================================
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    volumes:
+      # Live-mount source for hot reload
+      - .:/app
+      # Keep container-managed node_modules/.next (Windows/macOS perf)
+      - /app/node_modules
+      - /app/.next
+    command: pnpm dev
+    restart: unless-stopped

@@ -8,7 +8,7 @@ import type {
   AccountCategory,
   AccountGame,
   GamePickerItem,
-} from "./types";
+} from "../types";
 
 const LIMIT = 10;
 

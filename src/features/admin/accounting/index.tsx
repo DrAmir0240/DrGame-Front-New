@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { accountingTabs } from "./constants";
 import FinancialReports from "./components/FinancialReports";
 import DailyLedger from "./components/DailyLedger";
+import InvoicesLedger from "./components/InvoicesLedger";
 import ExpenseList from "./components/ExpenseList";
 import IncomeList from "./components/IncomeList";
 import PayrollList from "./components/PayrollList";
@@ -46,6 +47,10 @@ export default function AccountingPage() {
 
         <TabsContent value="daily">
           <DailyLedger />
+        </TabsContent>
+
+        <TabsContent value="invoices">
+          <InvoicesLedger />
         </TabsContent>
 
         <TabsContent value="accounting">

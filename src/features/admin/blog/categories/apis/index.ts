@@ -1,37 +1,86 @@
-import api from "@/api/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import api from "@/api/api";
+import { toast } from "@/components/ui";
+import { PaginatedResponse } from "@/features/admin/website-home/types";
+import type { BlogCategory } from "../../types";
 
-export const useBlogCategories = (params?: { limit?: number; offset?: number; search?: string }) => {
-  return useQuery({
-    queryKey: ["blog-categories", params],
-    queryFn: () =>
-      api.get("/api/admin/blog/categories/", { params }).then((r) => r.data),
+const LIMIT = 10;
+
+function buildParams(filters?: Record<string, unknown>) {
+  const params: Record<string, string> = {};
+  if (!filters) return params;
+  for (const [key, value] of Object.entries(filters)) {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      value !== "all"
+    ) {
+      params[key] = String(value);
+    }
+  }
+  return params;
+}
+
+export function useBlogCategories(filters?: {
+  limit?: number;
+  offset?: number;
+  search?: string;
+}) {
+  return useQuery<PaginatedResponse<BlogCategory>>({
+    queryKey: ["admin", "blog", "categories", filters],
+    queryFn: async () => {
+      const { data } = await api.get<PaginatedResponse<BlogCategory>>(
+        "/website/employee/blog/categories/",
+        { params: buildParams(filters as Record<string, unknown>) }
+      );
+      return data;
+    },
   });
-};
+}
 
-export const useCreateBlogCategory = () => {
+export function useCreateBlogCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: { title: string; description?: string }) =>
-      api.post("/api/admin/blog/categories/", data).then((r) => r.data),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["blog-categories"] }),
+    mutationFn: (payload: { title: string; description?: string }) =>
+      api.post("/website/employee/blog/categories/", payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
+      toast.success("دسته‌بندی بلاگ با موفقیت ایجاد شد");
+    },
+    onError: () => toast.error("خطا در ایجاد دسته‌بندی بلاگ"),
   });
-};
+}
 
-export const useUpdateBlogCategory = () => {
+export function useUpdateBlogCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...data }: { id: number; title: string; description?: string }) =>
-      apiClient.patch(`/api/admin/blog/categories/${id}/`, data).then((r) => r.data),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["blog-categories"] }),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: { title: string; description?: string };
+    }) => api.patch(`/website/employee/blog/categories/${id}/`, payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
+      toast.success("دسته‌بندی بلاگ با موفقیت بروزرسانی شد");
+    },
+    onError: () => toast.error("خطا در بروزرسانی دسته‌بندی بلاگ"),
   });
-};
+}
 
-export const useDeleteBlogCategory = () => {
+export function useDeleteBlogCategory() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (id: number) =>
-      apiClient.delete(`/api/admin/blog/categories/${id}/`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["blog-categories"] }),
+      api.delete(`/website/employee/blog/categories/${id}/`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
+      toast.success("حذف شد");
+    },
+    onError: () => toast.error("خطا در حذف"),
   });
-};
+}
+
+export { LIMIT };

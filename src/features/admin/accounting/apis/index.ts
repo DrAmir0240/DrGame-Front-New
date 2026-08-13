@@ -37,6 +37,13 @@ import type {
   RepairReport,
   SonyReport,
   ProductReportByCategory,
+  InvoiceCategory,
+  EmployeeInvoice,
+  CreateInvoiceFormData,
+  CreateTransactionFormData,
+  EmployeeTransaction,
+  MatchedAccount,
+  InvoiceFilters,
 } from "../types";
 
 function buildParams(filters?: Record<string, unknown>): Record<string, string> {
@@ -52,7 +59,7 @@ function buildParams(filters?: Record<string, unknown>): Record<string, string> 
 
 // ─── Dropdown Hooks ───
 
-export function useDropdown(type: "account_side" | "category" | "status" | "payment_status") {
+export function useDropdown(type: "account_side" | "category" | "status" | "payment_status" | "bank_account") {
   return useQuery<DropdownItem[]>({
     queryKey: ["accounting", "dropdown", type],
     queryFn: async () => {
@@ -78,6 +85,10 @@ export function usePaymentStatusDropdown() {
   return useDropdown("payment_status");
 }
 
+export function useBankAccountsDropdown() {
+  return useDropdown("bank_account");
+}
+
 // ─── Account Sides CRUD ───
 
 export function useAccountSidesList(filters?: AccountSideFilters) {
@@ -85,8 +96,11 @@ export function useAccountSidesList(filters?: AccountSideFilters) {
     queryKey: ["accounting", "account-sides", filters],
     queryFn: async () => {
       const params = buildParams(filters as Record<string, unknown>);
-      const { data } = await api.get<AccountSide[]>("/accounting/account-sides/", { params });
-      return data;
+      const { data } = await api.get<AccountSide[] | PaginatedResponse<AccountSide>>(
+        "/accounting/account-sides/",
+        { params }
+      );
+      return Array.isArray(data) ? data : (data.results ?? []);
     },
   });
 }
@@ -684,5 +698,111 @@ export function useDeleteSales() {
       toast.success("فاکتور فروش با موفقیت حذف شد");
     },
     onError: () => toast.error("خطا در حذف فاکتور فروش"),
+  });
+}
+
+// ─── Invoice Categories (guide) ───
+
+export function useInvoiceCategories() {
+  return useQuery<InvoiceCategory[]>({
+    queryKey: ["accounting", "invoice-categories"],
+    queryFn: async () => {
+      const { data } = await api.get<
+        InvoiceCategory[] | PaginatedResponse<InvoiceCategory>
+      >("/accounting/invoice-categories/");
+      return Array.isArray(data) ? data : (data.results ?? []);
+    },
+  });
+}
+
+// ─── Unified Invoices (guide) ───
+
+export function useInvoicesList(filters?: InvoiceFilters) {
+  return useQuery<EmployeeInvoice[]>({
+    queryKey: ["accounting", "invoices", filters],
+    queryFn: async () => {
+      const params = buildParams(filters as Record<string, unknown>);
+      const { data } = await api.get<
+        EmployeeInvoice[] | PaginatedResponse<EmployeeInvoice>
+      >("/accounting/invoices/", { params });
+      return Array.isArray(data) ? data : (data.results ?? []);
+    },
+  });
+}
+
+export function useInvoiceDetail(id: number | null) {
+  return useQuery<EmployeeInvoice>({
+    queryKey: ["accounting", "invoices", id],
+    queryFn: async () => {
+      const { data } = await api.get<EmployeeInvoice>(
+        `/accounting/invoices/${id}/`
+      );
+      return data;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useCreateInvoice() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateInvoiceFormData) =>
+      api.post("/accounting/invoices/create/", payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["accounting", "invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["accounting", "daily"] });
+      toast.success("فاکتور با موفقیت ایجاد شد");
+    },
+    onError: () => toast.error("خطا در ایجاد فاکتور"),
+  });
+}
+
+// ─── Transactions (guide) ───
+
+export function useTransactionsList(filters?: {
+  account_side?: number;
+  direction?: string;
+  bank_account?: number;
+}) {
+  return useQuery<EmployeeTransaction[]>({
+    queryKey: ["accounting", "transactions", filters],
+    queryFn: async () => {
+      const params = buildParams(filters as Record<string, unknown>);
+      const { data } = await api.get<
+        EmployeeTransaction[] | PaginatedResponse<EmployeeTransaction>
+      >("/accounting/transactions/", { params });
+      return Array.isArray(data) ? data : (data.results ?? []);
+    },
+  });
+}
+
+export function useCreateTransaction() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateTransactionFormData) =>
+      api.post("/accounting/transactions/create/", payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["accounting", "transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["accounting", "invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["accounting", "daily"] });
+      toast.success("تراکنش با موفقیت ثبت شد");
+    },
+    onError: () => toast.error("خطا در ثبت تراکنش"),
+  });
+}
+
+// ─── Matched Accounts (guide) ───
+
+export function useMatchedAccounts(gameIds: number[]) {
+  return useQuery<MatchedAccount[]>({
+    queryKey: ["accounting", "matched-accounts", gameIds],
+    queryFn: async () => {
+      const { data } = await api.get<MatchedAccount[]>(
+        "/accounting/matched-accounts/",
+        { params: { game_ids: gameIds.join(",") } }
+      );
+      return data;
+    },
+    enabled: gameIds.length > 0,
   });
 }

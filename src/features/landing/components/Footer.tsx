@@ -1,5 +1,5 @@
-import HomeFooter from "@/components/layout/home/footer";
+import LayoutFooter from "@/components/layout/footer";
 
 export default function Footer() {
-  return <HomeFooter />;
+  return <LayoutFooter />;
 }

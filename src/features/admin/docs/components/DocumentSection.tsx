@@ -54,7 +54,7 @@ export default function DocumentSection() {
   const totalPages = Math.ceil(totalCount / LIMIT);
 
   const columns: DataTableColumn<Document>[] = [
-    { header: "#", render: (row, i) => <span className="text-neutral-400 text-xs">{(page * LIMIT) + (i ?? 0) + 1}</span> },
+    { header: "#", render: (row) => <span className="text-neutral-400 text-xs">{row.id}</span> },
     { header: "عنوان", accessor: "title" },
     { header: "دسته‌بندی", render: (row) => row.main_category_title ?? "-" },
     { header: "زیردسته", render: (row) => row.sub_category_title ?? "-" },

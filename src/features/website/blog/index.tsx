@@ -27,11 +27,11 @@ export function BlogsPage() {
     ...(category ? { category: Number(category) } : {}),
   });
 
-  const filtered = (posts ?? []).filter((p) =>
+  const filtered = (posts?.results ?? []).filter((p) =>
     search
       ? p.title.toLowerCase().includes(search.toLowerCase()) ||
-        p.author_name.toLowerCase().includes(search.toLowerCase()) ||
-        p.category_title.toLowerCase().includes(search.toLowerCase())
+        p.author_name?.toLowerCase().includes(search.toLowerCase()) ||
+        p.category_title?.toLowerCase().includes(search.toLowerCase())
       : true
   );
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowRight, ShoppingCart, Check, Minus, Plus, Package, Layers } from "lucide-react";
 import { Button, Badge } from "@/components/ui";
@@ -15,6 +15,7 @@ export function ProductDetailPage() {
   const id = Number(params.id);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
+  const [activeImage, setActiveImage] = useState(0);
 
   const { data: product, isLoading } = useProductDetail(id);
   const { data: images } = useProductImages(product?.id ?? null);
@@ -22,6 +23,10 @@ export function ProductDetailPage() {
 
   const productInfo = product?.product;
   const stockCount = product?.stock_count ?? (product as unknown as { product_stock?: number })?.product_stock ?? 0;
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [product?.id]);
 
   if (isLoading) {
     return (
@@ -61,11 +66,16 @@ export function ProductDetailPage() {
   if (mainImage) allImages.push(mainImage);
   if (images) images.forEach((i) => { if (i.img) allImages.push(i.img); });
 
+  const displayImage =
+    allImages[Math.min(activeImage, allImages.length - 1)] || allImages[0] || "";
+
   const handleAddToCart = () => {
-    addToCart.mutate({
-      storeProductId: product.id,
-      color: selectedColor || undefined,
-    });
+    addToCart
+      .mutateAsync({
+        storeProductId: product.id,
+        color: selectedColor || undefined,
+      })
+      .then(() => router.push("/cart"));
   };
 
   return (
@@ -82,7 +92,7 @@ export function ProductDetailPage() {
         <div className="space-y-4">
           <div className="aspect-square rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
             <img
-              src={getImageUrl(allImages[0] || "")}
+              src={getImageUrl(displayImage)}
               alt={productTitle}
               className="w-full h-full object-cover"
             />
@@ -90,16 +100,22 @@ export function ProductDetailPage() {
           {allImages.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
               {allImages.map((img, i) => (
-                <div
+                <button
                   key={i}
-                  className="w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800"
+                  type="button"
+                  onClick={() => setActiveImage(i)}
+                  className={`w-20 h-20 rounded-xl overflow-hidden shrink-0 border-2 bg-neutral-100 dark:bg-neutral-800 transition-colors ${
+                    activeImage === i
+                      ? "border-primary-500"
+                      : "border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600"
+                  }`}
                 >
                   <img
                     src={getImageUrl(img)}
                     alt={`${productTitle} ${i + 1}`}
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </button>
               ))}
             </div>
           )}

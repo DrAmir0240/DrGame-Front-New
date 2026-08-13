@@ -14,7 +14,7 @@ export default function DocsPage() {
     <div className="space-y-6">
       <PageHeader
         title="اسناد و دارایی‌ها"
-        description="مدیریت اسناد، دسته‌بندی‌ها و دارایی‌های واقعی"
+        description="مدیریت اسناد، دسته‌بندی‌ها و دارایی‌های حقیقی"
       />
 
       <Tabs dir="rtl" value={activeTab} onValueChange={setActiveTab} className="space-y-6">

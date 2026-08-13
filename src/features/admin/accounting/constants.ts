@@ -55,5 +55,6 @@ export const accountSideTypeOptions = [
 export const accountingTabs = [
   { value: "reports", label: "گزارش‌های مالی" },
   { value: "daily", label: "دفتر روزانه" },
+  { value: "invoices", label: "فاکتور و تراکنش" },
   { value: "accounting", label: "حسابداری" },
 ];

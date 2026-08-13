@@ -14,6 +14,7 @@ import type {
   OrderAction,
   ExecuteActionResponse,
   AdvanceStageResponse,
+  StageLog,
 } from "../types";
 
 const BASE = "/orders";
@@ -299,6 +300,48 @@ export function useAdvanceStage(prefix: OrderPrefix) {
     },
     onError: (err: any) => {
       const msg = err?.response?.data?.detail || "خطا در تغییر مرحله";
+      toast.error(msg);
+    },
+  });
+}
+
+// ── Guide API: Stage Logs (GET /orders/{prefix}/{order_pk}/stage-logs/) ──
+
+export function useStageLogs(prefix: OrderPrefix, orderId: number | null) {
+  return useQuery<StageLog[]>({
+    queryKey: ["stage-logs", prefix, orderId],
+    queryFn: async () => {
+      const { data } = await api.get(prefixUrl(prefix, `${orderId}/stage-logs/`));
+      return extractList<StageLog>(data);
+    },
+    enabled: orderId !== null,
+  });
+}
+
+// ── Guide API: Execute Action (POST /orders/{prefix}/{order_pk}/actions/) ──
+
+export function useGuideExecuteAction(prefix: OrderPrefix) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      orderId,
+      ...payload
+    }: {
+      orderId: number;
+      action_id: number;
+      note?: string;
+      item_id?: number | null;
+    }) => api.post<ExecuteActionResponse>(prefixUrl(prefix, `${orderId}/actions/`), payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["stage-logs"] });
+      qc.invalidateQueries({ queryKey: ["order-actions"] });
+      qc.invalidateQueries({ queryKey: ["order-detail"] });
+      toast.success("اقدام با موفقیت ثبت شد");
+    },
+    onError: (err: unknown) => {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "خطا در ثبت اقدام";
       toast.error(msg);
     },
   });

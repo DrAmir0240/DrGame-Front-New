@@ -61,7 +61,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container relative z-10 pt-24 pb-16">
+      <div className="container relative z-10 pt-14 md:pt-24 pb-10 md:pb-16 ">
         <div className="flex flex-col items-center min-h-[70vh] justify-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary-500/10 border border-primary-500/20 rounded-full px-4 py-1.5 mb-8">

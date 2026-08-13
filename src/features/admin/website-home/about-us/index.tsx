@@ -89,7 +89,7 @@ export default function AboutUsPage() {
                   در حال بارگذاری...
                 </td>
               </tr>
-            ) : items.length === 0 ? (
+            ) : items?.length === 0 ? (
               <tr>
                 <td
                   colSpan={6}

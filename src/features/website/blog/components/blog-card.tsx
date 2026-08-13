@@ -46,11 +46,13 @@ export function BlogCard({ post }: Props) {
           </span>
           <span className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
-            {new Date(post.published_at).toLocaleDateString("fa-IR", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
+            {post.published_at
+              ? new Date(post.published_at).toLocaleDateString("fa-IR", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              : "-"}
           </span>
         </div>
       </div>

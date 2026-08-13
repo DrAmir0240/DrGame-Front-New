@@ -42,6 +42,7 @@ const menuItems = [
       { label: "تامین‌کنندگان", path: "/admin/inventory/suppliers" },
       { label: "دسته‌بندی‌ها", path: "/admin/inventory/categories" },
       { label: "گردش انبار", path: "/admin/inventory/movements" },
+      { label: "سفارش خرید", path: "/admin/inventory/purchase-orders" },
     ],
   },
   {
@@ -70,6 +71,7 @@ const menuItems = [
     children: [
       { label: "گزارشات مالی", path: "/admin/accounting/reports" },
       { label: "دفتر روزانه", path: "/admin/accounting/daily" },
+      { label: "فاکتور و تراکنش", path: "/admin/accounting/invoices" },
       { label: "حسابداری", path: "/admin/accounting" },
     ],
   },
@@ -86,6 +88,7 @@ const menuItems = [
     children: [
       { label: "پرونده کارمندان", path: "/admin/hr/employees" },
       { label: "مدیریت منابع انسانی", path: "/admin/hr/management" },
+      { label: "حقوق و دستمزد", path: "/admin/hr/payroll" },
     ],
   },
 
@@ -122,13 +125,28 @@ const menuItems = [
   label: "محتوای سایت",
   icon: BookOpen, 
   children: [
-    { label: "بلاگ", path: "/admin/blog" },
+    { label: "بلاگ", path: "/admin/website/blog" },
     { label: "دسته‌بندی بلاگ", path: "/admin/website/blog-categories" },
     { label: "ویدیوها", path: "/admin/website/videos" },
   ],
 },
-  { label: "اعلان‌ها", icon: Bell, path: "/notifications" },
-  { label: "تنظیمات", icon: Settings, path: "/settings" },
+  {
+    label: "تنظیمات",
+    icon: Settings,
+    children: [
+      { label: "نمای کلی", path: "/admin/settings" },
+      { label: "پرمیشن‌ها", path: "/admin/settings/permissions" },
+      { label: "نقش‌ها", path: "/admin/settings/roles" },
+      { label: "نقش‌های کارمند", path: "/admin/settings/employee-roles" },
+      { label: "دسته‌بندی سفارش سونی", path: "/admin/settings/sony-order-categories" },
+      { label: "روش‌های فروش", path: "/admin/settings/sell-methods" },
+      { label: "دسته‌بندی کالا", path: "/admin/settings/product-order-categories" },
+      { label: "دسته‌بندی تعمیر", path: "/admin/settings/repair-order-categories" },
+      { label: "بانک‌های سونی", path: "/admin/settings/sony-banks" },
+      { label: "حساب‌های بانکی", path: "/admin/settings/bank-accounts" },
+      { label: "دسته‌بندی فاکتور", path: "/admin/settings/invoice-categories" },
+    ],
+  },
 ];
 
 function SidebarItem({ item, collapsed }: any) {
@@ -248,9 +266,9 @@ export const Sidebar = () => {
 
           {!collapsed && (
             <div>
-              <h1 className="font-bold text-sidebar-foreground text-base">
+              <Button variant="ghost" href="/" className="font-bold text-sidebar-foreground text-base p-0">
                 دکترگیم
-              </h1>
+              </Button>
               <p className="text-xs text-neutral-400">
                 سیستم مدیریت یکپارچه
               </p>

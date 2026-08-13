@@ -13,7 +13,7 @@ import {
   LIMIT,
 } from "./apis";
 import { CategoryFormDialog } from "./components/category-form-dialog";
-import type { BlogPostCategory } from "../types";
+import type { BlogCategory } from "../types";
 
 export default function BlogCategoriesPage() {
   const [page, setPage] = useState(0);
@@ -29,8 +29,8 @@ export default function BlogCategoriesPage() {
   const deleteMutation = useDeleteBlogCategory();
 
   const [openForm, setOpenForm] = useState(false);
-  const [editing, setEditing] = useState<BlogPostCategory | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<BlogPostCategory | null>(null);
+  const [editing, setEditing] = useState<BlogCategory | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<BlogCategory | null>(null);
 
   const items = data?.results ?? [];
   const filtered = search.trim()
@@ -48,7 +48,10 @@ export default function BlogCategoriesPage() {
 
   const handleSubmit = async (values: { title: string; description: string }) => {
     if (editing) {
-      await updateMutation.mutateAsync({ id: editing.id, ...values });
+      await updateMutation.mutateAsync({
+        id: editing.id,
+        payload: values,
+      });
     } else {
       await createMutation.mutateAsync(values);
     }
@@ -62,7 +65,7 @@ export default function BlogCategoriesPage() {
     setDeleteTarget(null);
   };
 
-  const columns: DataTableColumn<BlogPostCategory>[] = useMemo(
+  const columns: DataTableColumn<BlogCategory>[] = useMemo(
     () => [
       {
         header: "عنوان",

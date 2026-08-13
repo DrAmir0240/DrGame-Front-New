@@ -11,9 +11,9 @@ export function VideosPage() {
   const [search, setSearch] = useState("");
 
   const { data, isLoading } = useVideos();
-  const videos = data?.results ?? data ?? [];
+  const videos = data?.results ?? [];
 
-  const filtered = (videos ?? []).filter((v) =>
+  const filtered = videos.filter((v) =>
     search
       ? v.title.toLowerCase().includes(search.toLowerCase()) ||
         (v.description ?? "")

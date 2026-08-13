@@ -1,23 +1,42 @@
 "use client";
+import { useState } from "react";
 import { PageHeader } from "@/components/shared";
-import { mockOrders } from "./constants";
-import StatCards from "./components/StatCards";
-import RecentOrdersCard from "./components/RecentOrdersCard";
-import OrderDistributionCard from "./components/OrderDistributionCard";
-import { getOrderTypeData } from "./utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
+import FinancialWidgets from "./components/FinancialWidgets";
+import OrdersWidgets from "./components/OrdersWidgets";
+import InventoryWidgets from "./components/InventoryWidgets";
+import SonyWidgets from "./components/SonyWidgets";
+import CustomersWidgets from "./components/CustomersWidgets";
+import HrWidgets from "./components/HrWidgets";
+import DashboardDateRange from "./components/DateRange";
+import type { DateRange } from "./types";
 
 export const DashboardPage = () => {
-  const orderTypeData = getOrderTypeData(mockOrders);
-  const recentOrders = mockOrders.slice(0, 6);
+  const [range, setRange] = useState<DateRange>({});
 
   return (
     <div className="space-y-6">
-      <PageHeader title="داشبورد" description="نمای کلی عملکرد سیستم" />
-      <StatCards />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <RecentOrdersCard orders={recentOrders} />
-        <OrderDistributionCard data={orderTypeData} />
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <PageHeader title="داشبورد" description="نمای کلی عملکرد سیستم" />
+        <DashboardDateRange value={range} onChange={setRange} />
       </div>
+
+      <Tabs dir="rtl" defaultValue="financial">
+        <TabsList className="mb-4">
+          <TabsTrigger value="financial">مالی</TabsTrigger>
+          <TabsTrigger value="orders">سفارشات</TabsTrigger>
+          <TabsTrigger value="inventory">انبار</TabsTrigger>
+          <TabsTrigger value="sony">اکانت سونی</TabsTrigger>
+          <TabsTrigger value="customers">مشتریان</TabsTrigger>
+          <TabsTrigger value="hr">کارکنان</TabsTrigger>
+        </TabsList>
+        <TabsContent value="financial"><FinancialWidgets range={range} /></TabsContent>
+        <TabsContent value="orders"><OrdersWidgets range={range} /></TabsContent>
+        <TabsContent value="inventory"><InventoryWidgets range={range} /></TabsContent>
+        <TabsContent value="sony"><SonyWidgets range={range} /></TabsContent>
+        <TabsContent value="customers"><CustomersWidgets range={range} /></TabsContent>
+        <TabsContent value="hr"><HrWidgets range={range} /></TabsContent>
+      </Tabs>
     </div>
   );
 };

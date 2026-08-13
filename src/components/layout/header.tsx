@@ -1,130 +1,270 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
-import { Gamepad2, Menu, X, Sun, Moon, ShoppingCart } from "lucide-react";
-import { useState } from "react";
-import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { NavLink } from "@/features/landing/types";
+import {
+  Gamepad2,
+  LayoutDashboard,
+  Menu,
+  ShoppingCart,
+  User,
+  UserCircle,
+  X,
+} from "lucide-react";
 
-export const navLinks: NavLink[] = [
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui";
+import { cn, getImageUrl } from "@/lib/utils";
+import { useProductCart, useGameCart } from "@/features/website/apis";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
+
+const navItems = [
   { label: "خانه", href: "/" },
-  { label: "فروشگاه", href: "/products" },
   { label: "بازی‌ها", href: "/games" },
+  { label: "محصولات", href: "/products" },
+  { label: "بلاگ", href: "/blog" },
+  { label: "ویدیوها", href: "/videos" },
   { label: "درباره ما", href: "/about-us" },
 ];
 
-export const  Header = ()=> {
+export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
 
+  const { data: productCart } = useProductCart();
+  const { data: gameCart } = useGameCart();
+  const { data: auth, isLoading: authLoading } = useGetAuthQuery();
+
+  const isAuthenticated = auth?.is_authenticated === true;
+  const isMainManager = auth?.user_type === "main_manager";
+
+  const cartCount =
+    (productCart?.item_count ?? 0) + (gameCart?.games?.length ?? 0);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-800">
-      <div className="container">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-lg shadow-primary-500/25">
-              <Gamepad2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-lg text-foreground">
-              دکتر<span className="text-primary-500">گیم</span>
-            </span>
-          </Link>
+    <>
+      <header className="h-16 border-b border-neutral-200 bg-background/80 backdrop-blur-sm flex items-center sticky top-0 z-30">
+        <div className="container flex items-center justify-between gap-4">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-2.5 shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
+                <Gamepad2 className="w-5 h-5 text-white" />
+              </div>
+              <span className="font-bold text-lg text-foreground hidden sm:inline">
+                دکتر<span className="text-primary-500">گیم</span>
+              </span>
+            </Link>
 
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname?.startsWith(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm transition-colors ${
-                    isActive
-                      ? "text-primary-600 dark:text-primary-400 font-medium"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            <nav className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "px-3 py-2 rounded-lg text-sm transition-all",
+                      isActive
+                        ? "text-primary-600 dark:text-primary-400 font-semibold bg-primary-500/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
-            <Link href="/cart" className="relative text-muted-foreground hover:text-foreground p-2 transition-colors">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              href="/cart"
+              aria-label="سبد خرید"
+              className="relative"
+            >
               <ShoppingCart className="w-5 h-5" />
-            </Link>
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="w-9 h-9 relative flex items-center justify-center rounded-lg border border-neutral-400 dark:border-neutral-600 hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-            >
-              <Sun className="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </button>
-            <Link
-              href="/login"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2"
-            >
-              ورود
-            </Link>
-            <Link
-              href="/login"
-              className="text-sm bg-primary-600 hover:bg-primary-500 text-white px-5 py-2 rounded-lg transition-all shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40"
-            >
-              ثبت‌نام
-            </Link>
-          </div>
 
-          <div className="flex items-center gap-2 md:hidden">
-            <Link href="/cart" className="relative text-muted-foreground hover:text-foreground">
-              <ShoppingCart className="w-5 h-5" />
-            </Link>
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="w-9 h-9 relative flex items-center justify-center rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground"
-            >
-              <Sun className="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </button>
-            <button
-              className="text-muted-foreground hover:text-foreground"
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-error rounded-full text-[10px] text-white flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+
+            {!authLoading && isAuthenticated && (
+              <>
+                {isMainManager && (
+                  <Button href="/admin" variant="outline" className="hidden sm:inline-flex">
+                    <LayoutDashboard className="w-4 h-4 ml-1" />
+                    پنل ادمین
+                  </Button>
+                )}
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="hidden sm:inline-flex gap-2 pr-2">
+                      {auth?.user_pic ? (
+                        <img
+                          src={getImageUrl(auth.user_pic)}
+                          alt={auth.user_name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                          <User className="w-4 h-4 text-primary" />
+                        </div>
+                      )}
+                      <span className="text-sm">{auth?.user_name || auth?.phone}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="gap-2 cursor-pointer">
+                        <UserCircle className="w-4 h-4" />
+                        پنل کاربری
+                      </Link>
+                    </DropdownMenuItem>
+
+                    {isMainManager && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="gap-2 cursor-pointer">
+                            <LayoutDashboard className="w-4 h-4" />
+                            پنل ادمین
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
+
+            {!authLoading && !isAuthenticated && (
+              <Button href="/login" className="hidden sm:inline-flex">
+                ورود / ثبت‌نام
+              </Button>
+            )}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
         </div>
+      </header>
 
-        {mobileOpen && (
-          <div className="md:hidden pb-4 border-t border-border mt-2 pt-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-3 border-t border-border flex flex-col gap-2">
-              <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground py-2">
-                ورود
-              </Link>
-              <Link
-                href="/login"
-                className="text-sm bg-primary-600 hover:bg-primary-500 text-white px-5 py-2.5 rounded-lg text-center"
-              >
-                ثبت‌نام
-              </Link>
-            </div>
-          </div>
+      <div
+        className={cn(
+          "md:hidden fixed inset-0 z-40 transition-all duration-300",
+          mobileOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
         )}
+      >
+        <div
+          className="absolute inset-0 bg-black/50"
+          onClick={() => setMobileOpen(false)}
+        />
+
+        <nav
+          className={cn(
+            "absolute top-0 right-0 h-full w-64 bg-background border-l border-border p-4 space-y-1 transition-transform duration-300 ease-out",
+            mobileOpen ? "translate-x-0" : "translate-x-full",
+          )}
+        >
+          {navItems.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "block px-3 py-2.5 rounded-lg text-sm transition-all",
+                  isActive
+                    ? "text-primary-600 dark:text-primary-400 font-semibold bg-primary-500/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+
+          {!authLoading && isAuthenticated ? (
+            <div className="mt-4 space-y-1 border-t border-border pt-3">
+              <div className="flex items-center gap-3 px-3 py-2">
+                {auth?.user_pic ? (
+                  <img
+                    src={getImageUrl(auth.user_pic)}
+                    alt={auth.user_name}
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                )}
+                <span className="text-sm font-medium truncate">
+                  {auth?.user_name || auth?.phone}
+                </span>
+              </div>
+
+              <Link
+                href="/profile"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <UserCircle className="w-4 h-4" />
+                پنل کاربری
+              </Link>
+
+              {isMainManager && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  پنل ادمین
+                </Link>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 mt-4 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors"
+            >
+              ورود / ثبت‌نام
+            </Link>
+          )}
+        </nav>
       </div>
-    </nav>
+    </>
   );
 }
