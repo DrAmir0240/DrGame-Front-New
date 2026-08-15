@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PaginatedResponse,
   Customer,
@@ -100,7 +101,7 @@ export function useDeleteCustomer() {
       queryClient.invalidateQueries({ queryKey: ["crm", "customers"] });
       toast.success("مشتری با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف مشتری"),
+    onError: (err) => toastApiError(err, "خطا در حذف مشتری"),
   });
 }
 
@@ -151,7 +152,7 @@ export function useDeleteB2BProfile() {
       queryClient.invalidateQueries({ queryKey: ["crm"] });
       toast.success("پروفایل تجاری با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف پروفایل تجاری"),
+    onError: (err) => toastApiError(err, "خطا در حذف پروفایل تجاری"),
   });
 }
 

@@ -1,18 +1,31 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode, ComponentType } from "react";
+import { Home } from "lucide-react";
 
 interface AuthLayoutProps {
   icon: ComponentType<{ className?: string }>;
   title: string;
   subtitle?: ReactNode;
   footer?: ReactNode;
+  homeButton?: boolean;
   children: ReactNode;
 }
 
-export default function AuthLayout({ icon: Icon, title, subtitle, footer, children }: AuthLayoutProps) {
+export default function AuthLayout({ icon: Icon, title, subtitle, footer, homeButton, children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 relative">
+      {homeButton && (
+        <Link
+          href="/"
+          className="absolute top-4 right-4 inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        >
+          <Home className="w-4 h-4" />
+          خانه
+        </Link>
+      )}
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">

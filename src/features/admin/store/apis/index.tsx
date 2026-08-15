@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { PaginatedResponse } from "@/features/admin/website-home/types";
 import type {
   StoreProduct,
@@ -54,7 +55,7 @@ export function useCreateStoreProduct() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "products"] });
       toast.success("محصول فروشگاه با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد محصول فروشگاه"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد محصول فروشگاه"),
   });
 }
 
@@ -72,7 +73,7 @@ export function useUpdateStoreProduct() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "products"] });
       toast.success("محصول فروشگاه با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی محصول فروشگاه"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی محصول فروشگاه"),
   });
 }
 
@@ -85,7 +86,7 @@ export function useDeleteStoreProduct() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "products"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -112,7 +113,7 @@ export function useCreateStoreProductCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "product-categories"] });
       toast.success("دسته‌بندی کالا با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی کالا"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی کالا"),
   });
 }
 
@@ -125,7 +126,7 @@ export function useUpdateStoreProductCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "product-categories"] });
       toast.success("دسته‌بندی کالا با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی دسته‌بندی کالا"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی دسته‌بندی کالا"),
   });
 }
 
@@ -138,7 +139,7 @@ export function useDeleteStoreProductCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "product-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -168,7 +169,7 @@ export function useCreateStoreGame() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "games"] });
       toast.success("بازی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد بازی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد بازی"),
   });
 }
 
@@ -183,7 +184,7 @@ export function useUpdateStoreGame() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "games"] });
       toast.success("بازی با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی بازی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی بازی"),
   });
 }
 
@@ -195,7 +196,7 @@ export function useDeleteStoreGame() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "games"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -222,7 +223,7 @@ export function useCreateStoreGameCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "game-categories"] });
       toast.success("دسته‌بندی بازی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی بازی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی بازی"),
   });
 }
 
@@ -240,7 +241,7 @@ export function useUpdateStoreGameCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "game-categories"] });
       toast.success("دسته‌بندی بازی با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی دسته‌بندی بازی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی دسته‌بندی بازی"),
   });
 }
 
@@ -253,7 +254,7 @@ export function useDeleteStoreGameCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "store", "game-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 

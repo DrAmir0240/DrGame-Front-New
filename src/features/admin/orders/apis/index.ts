@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   OrderPrefix,
   Category,
@@ -65,7 +66,7 @@ export function useCreateCategory(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["categories", prefix] });
       toast.success("دسته‌بندی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی"),
   });
 }
 
@@ -78,7 +79,7 @@ export function useUpdateCategory(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["categories", prefix] });
       toast.success("دسته‌بندی با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی دسته‌بندی"),
   });
 }
 
@@ -91,7 +92,7 @@ export function useDeleteCategory(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["categories", prefix] });
       toast.success("دسته‌بندی با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در حذف دسته‌بندی"),
   });
 }
 
@@ -119,7 +120,7 @@ export function useCreateStage(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["categories"] });
       toast.success("مرحله با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد مرحله"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد مرحله"),
   });
 }
 
@@ -133,7 +134,7 @@ export function useUpdateStage(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["stage-detail"] });
       toast.success("مرحله با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی مرحله"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی مرحله"),
   });
 }
 
@@ -146,7 +147,7 @@ export function useDeleteStage(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["categories"] });
       toast.success("مرحله با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف مرحله"),
+    onError: (err) => toastApiError(err, "خطا در حذف مرحله"),
   });
 }
 
@@ -161,7 +162,7 @@ export function useCreateAction(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["stage-detail"] });
       toast.success("اکشن با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد اکشن"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد اکشن"),
   });
 }
 
@@ -174,7 +175,7 @@ export function useUpdateAction(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["stage-detail"] });
       toast.success("اکشن با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی اکشن"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی اکشن"),
   });
 }
 
@@ -187,7 +188,7 @@ export function useDeleteAction(prefix: OrderPrefix) {
       qc.invalidateQueries({ queryKey: ["stage-detail"] });
       toast.success("اکشن با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف اکشن"),
+    onError: (err) => toastApiError(err, "خطا در حذف اکشن"),
   });
 }
 

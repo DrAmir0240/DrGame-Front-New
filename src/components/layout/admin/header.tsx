@@ -13,14 +13,23 @@ import {
 } from "@/components/ui";
 import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 import { getImageUrl } from "@/lib/utils";
+import { logout } from "@/utils/logout";
+import CompleteProfileBanner from "../complete-profile-banner";
 
 
 export default function Header() {
   const { data: user } = useGetAuthQuery();
 
+  const displayName =
+    user?.profile?.first_name && user?.profile?.last_name
+      ? `${user.profile.first_name} ${user.profile.last_name}`
+      : user?.phone;
+
   return (
-    <header className="h-16 border-b border-neutral-200 bg-neutral-0 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-30">
-      <div className="flex items-center gap-4 flex-1">
+    <>
+      <header className="border-b border-neutral-200 bg-neutral-0 backdrop-blur-sm sticky top-0 z-30">
+        <div className="h-16 flex items-center justify-between px-6">
+          <div className="flex items-center gap-4 flex-1">
         <div className="relative max-w-md w-full hidden md:block">
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
 
@@ -55,7 +64,7 @@ export default function Header() {
                 </div>
               )}
               <span className="text-sm hidden sm:inline">
-                {user?.user_name || user?.phone}
+                {displayName}
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -72,13 +81,17 @@ export default function Header() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="text-error gap-2">
+            <DropdownMenuItem className="text-error gap-2" onClick={logout}>
               <LogOut className="w-4 h-4" />
               خروج
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </div>
+
+      <CompleteProfileBanner />
     </header>
+    </>
   );
 }

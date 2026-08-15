@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   BankAccount,
   BankAccountFormData,
@@ -81,7 +82,7 @@ export function useCreateRole() {
       qc.invalidateQueries({ queryKey: ["settings", "roles"] });
       toast.success("نقش با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد نقش"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد نقش"),
   });
 }
 
@@ -94,7 +95,7 @@ export function useUpdateRole() {
       qc.invalidateQueries({ queryKey: ["settings", "roles"] });
       toast.success("نقش بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی نقش"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی نقش"),
   });
 }
 
@@ -106,7 +107,7 @@ export function useDeleteRole() {
       qc.invalidateQueries({ queryKey: ["settings", "roles"] });
       toast.success("نقش حذف شد");
     },
-    onError: () => toast.error("خطا در حذف نقش"),
+    onError: (err) => toastApiError(err, "خطا در حذف نقش"),
   });
 }
 
@@ -119,7 +120,7 @@ export function useAssignPermissionsToRole() {
       qc.invalidateQueries({ queryKey: ["settings", "roles"] });
       toast.success("دسترسی‌ها اضافه شدند");
     },
-    onError: () => toast.error("خطا در افزودن دسترسی‌ها"),
+    onError: (err) => toastApiError(err, "خطا در افزودن دسترسی‌ها"),
   });
 }
 
@@ -132,7 +133,7 @@ export function useRemovePermissionsFromRole() {
       qc.invalidateQueries({ queryKey: ["settings", "roles"] });
       toast.success("دسترسی‌ها حذف شدند");
     },
-    onError: () => toast.error("خطا در حذف دسترسی‌ها"),
+    onError: (err) => toastApiError(err, "خطا در حذف دسترسی‌ها"),
   });
 }
 
@@ -160,7 +161,7 @@ export function useAssignRolesToEmployee() {
       qc.invalidateQueries({ queryKey: ["settings", "employee-roles"] });
       toast.success("نقش‌ها به کارمند اختصاص یافت");
     },
-    onError: () => toast.error("خطا در اختصاص نقش"),
+    onError: (err) => toastApiError(err, "خطا در اختصاص نقش"),
   });
 }
 
@@ -173,7 +174,7 @@ export function useRemoveRolesFromEmployee() {
       qc.invalidateQueries({ queryKey: ["settings", "employee-roles"] });
       toast.success("نقش‌ها حذف شدند");
     },
-    onError: () => toast.error("خطا در حذف نقش"),
+    onError: (err) => toastApiError(err, "خطا در حذف نقش"),
   });
 }
 
@@ -199,7 +200,7 @@ export function useCreateSonyOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-order-categories"] });
       toast.success("دسته‌بندی ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی"),
   });
 }
 
@@ -212,7 +213,7 @@ export function useUpdateSonyOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-order-categories"] });
       toast.success("دسته‌بندی بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -224,7 +225,7 @@ export function useDeleteSonyOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-order-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -248,7 +249,7 @@ export function useCreateSellMethod() {
       qc.invalidateQueries({ queryKey: ["settings", "sell-methods"] });
       toast.success("روش فروش ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد روش فروش"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد روش فروش"),
   });
 }
 
@@ -261,7 +262,7 @@ export function useUpdateSellMethod() {
       qc.invalidateQueries({ queryKey: ["settings", "sell-methods"] });
       toast.success("روش فروش بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -273,7 +274,7 @@ export function useDeleteSellMethod() {
       qc.invalidateQueries({ queryKey: ["settings", "sell-methods"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -300,7 +301,7 @@ export function useCreateProductOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "product-order-categories"] });
       toast.success("دسته‌بندی ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -313,7 +314,7 @@ export function useUpdateProductOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "product-order-categories"] });
       toast.success("دسته‌بندی بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -325,7 +326,7 @@ export function useDeleteProductOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "product-order-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -352,7 +353,7 @@ export function useCreateRepairOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "repair-order-categories"] });
       toast.success("دسته‌بندی ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -365,7 +366,7 @@ export function useUpdateRepairOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "repair-order-categories"] });
       toast.success("دسته‌بندی بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -377,7 +378,7 @@ export function useDeleteRepairOrderCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "repair-order-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -402,7 +403,7 @@ export function useCreateSonyBank() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-banks"] });
       toast.success("بانک سونی ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -415,7 +416,7 @@ export function useUpdateSonyBank() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-banks"] });
       toast.success("بانک سونی بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -427,7 +428,7 @@ export function useDeleteSonyBank() {
       qc.invalidateQueries({ queryKey: ["settings", "sony-banks"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -451,7 +452,7 @@ export function useCreateBankAccount() {
       qc.invalidateQueries({ queryKey: ["settings", "bank-accounts"] });
       toast.success("حساب بانکی ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -464,7 +465,7 @@ export function useUpdateBankAccount() {
       qc.invalidateQueries({ queryKey: ["settings", "bank-accounts"] });
       toast.success("حساب بانکی بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -476,7 +477,7 @@ export function useDeleteBankAccount() {
       qc.invalidateQueries({ queryKey: ["settings", "bank-accounts"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -503,7 +504,7 @@ export function useCreateInvoiceCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "invoice-categories"] });
       toast.success("دسته‌بندی فاکتور ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -516,7 +517,7 @@ export function useUpdateInvoiceCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "invoice-categories"] });
       toast.success("دسته‌بندی فاکتور بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -528,6 +529,6 @@ export function useDeleteInvoiceCategory() {
       qc.invalidateQueries({ queryKey: ["settings", "invoice-categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }

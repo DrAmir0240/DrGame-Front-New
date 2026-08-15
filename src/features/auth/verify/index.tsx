@@ -31,10 +31,9 @@ export default function VerifyPage() {
       { phone, code },
       {
         onSuccess: (res) => {
-          console.log(res)
           setAccess(res.data.access_token);
           setRefresh(res.data.refresh_token);
-          router.push("/admin");
+          router.push("/");
         },
       },
     );
@@ -58,12 +57,6 @@ export default function VerifyPage() {
         </span>
       }
     >
-      {verifyMutation.isError && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-          {VERIFY_LABELS.errorMessage}
-        </div>
-      )}
-
       {resendSent && (
         <div className="mb-4 p-3 rounded-lg bg-emerald-50 text-emerald-700 text-sm border border-emerald-200 flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4" />

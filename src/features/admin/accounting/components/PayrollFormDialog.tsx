@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Dialog, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
 import { useCreatePayroll, useUpdatePayroll, useAccountSidesDropdown } from "../apis";
-import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type { Payroll, PayrollFormData } from "../types";
 
 interface Props {
@@ -48,7 +48,7 @@ export default function PayrollFormDialog({ open, onClose, editItem }: Props) {
       else { await createPayroll.mutateAsync(data); }
       onClose();
     } catch (err: any) {
-      toast.error(err?.response?.status === 400 ? "اطلاعات را به درستی وارد کنید" : "خطایی رخ داد");
+      toastApiError(err, "خطایی رخ داد");
     }
   }
 

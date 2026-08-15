@@ -27,12 +27,19 @@ import {
   Users2,
   Globe,
   BookOpen,
+  Home,
+  LogOut,
+  ChevronRight,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
+import { logout } from "@/utils/logout";
+import { useSidebar } from "@/contexts/SidebarContext";
 
 const menuItems = [
+  { label: "خانه", icon: Home, path: "/" },
   { label: "داشبورد", icon: LayoutDashboard, path: "/admin" },
   {
     label: "انبارداری",
@@ -231,8 +238,13 @@ function SidebarItem({ item, collapsed }: any) {
 }
 
 export const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, setCollapsed } = useSidebar();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: auth, isLoading: authLoading } = useGetAuthQuery();
+
+  const hasPanelAccess = auth?.is_manager === true || auth?.is_employee === true;
+
+  const filteredMenu = hasPanelAccess ? menuItems : [];
 
   return (
     <>
@@ -259,40 +271,65 @@ export const Sidebar = () => {
           mobileOpen ? "translate-x-0" : "translate-x-full md:translate-x-0",
         )}
       >
-        <div className="p-4 flex items-center gap-3 border-b border-neutral-700 text-neutral-0">
-          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-            <Gamepad2 className="w-5 h-5 text-sidebar-primary-foreground" />
+        <div className="relative p-4 flex items-center gap-3 border-b border-neutral-700 text-neutral-0">
+          <div className="flex-1 flex items-center justify-center md:justify-start gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+              <Gamepad2 className="w-5 h-5 text-sidebar-primary-foreground" />
+            </div>
+
+            {!collapsed && (
+              <div className="hidden md:block min-w-0">
+                <Button variant="ghost" href="/" className="font-bold text-sidebar-foreground text-base p-0">
+                  دکترگیم
+                </Button>
+                <p className="text-xs text-neutral-400">
+                  سیستم مدیریت یکپارچه
+                </p>
+              </div>
+            )}
           </div>
 
-          {!collapsed && (
-            <div>
-              <Button variant="ghost" href="/" className="font-bold text-sidebar-foreground text-base p-0">
-                دکترگیم
-              </Button>
-              <p className="text-xs text-neutral-400">
-                سیستم مدیریت یکپارچه
-              </p>
-            </div>
-          )}
+          <Button
+            onClick={() => setCollapsed(!collapsed)}
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "hidden md:flex text-white items-center justify-center p-3 text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors",
+              collapsed &&
+                "absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-[#0B031C] border border-neutral-700 rounded-full shadow-lg w-7 h-7",
+            )}
+          >
+            <ChevronRight
+              color="white"
+              className={cn(
+                "w-5 h-5 transition-transform",
+                collapsed && "rotate-180",
+              )}
+            />
+          </Button>
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-hide  text-neutral-300">
-          {menuItems.map((item, i) => (
+          {!authLoading && filteredMenu.length === 0 && (
+            <p className="px-3 py-2.5 text-sm text-sidebar-foreground/50">
+              دسترسی به پنل ادمین ندارید
+            </p>
+          )}
+
+          {filteredMenu.map((item, i) => (
             <SidebarItem key={i} item={item} collapsed={collapsed} />
           ))}
         </nav>
 
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="hidden md:flex items-center justify-center p-3 border-t border-neutral-700 text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors"
+        <Button
+          onClick={logout}
+          variant="ghost"
+          className="flex items-center gap-3 w-full px-0  py-6 border-t border-neutral-700 text-error-400 hover:bg-[#211736] transition-colors text-sm"
         >
-          <ChevronLeft
-            className={cn(
-              "w-5 h-5 transition-transform",
-              collapsed && "rotate-180",
-            )}
-          />
-        </button>
+          <LogOut className="w-5 h-5 shrink-0" />
+
+          {!collapsed && <span>خروج از حساب</span>}
+        </Button>
       </aside>
     </>
   );

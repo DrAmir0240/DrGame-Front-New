@@ -16,12 +16,17 @@ import {
   ShoppingCart,
   User,
   Headset,
+  Home,
+  LogOut,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui";
+import { logout } from "@/utils/logout";
+import { useSidebar } from "@/contexts/SidebarContext";
 
 const menuItems = [
+  { label: "خانه", icon: Home, path: "/" },
   { label: "پنل کاربری", icon: User, path: "/profile" },
   { label: "کیف پول", icon: WalletMinimal, path: "/wallet" },
   { label: "علاقمندی ها", icon: Star, path: "wishlist" },
@@ -121,7 +126,7 @@ function SidebarItem({ item, collapsed }: any) {
 }
 
 export const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, setCollapsed } = useSidebar();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -149,23 +154,43 @@ export const Sidebar = () => {
           mobileOpen ? "translate-x-0" : "translate-x-full md:translate-x-0",
         )}
       >
-        <div className="p-4 flex items-center gap-3 border-b border-neutral-700 text-neutral-0">
-          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-            <Gamepad2 className="w-5 h-5 text-sidebar-primary-foreground" />
+        <div className="relative p-4 flex items-center gap-3 border-b border-neutral-700 text-neutral-0">
+          <div className="flex-1 flex items-center justify-center md:justify-start gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+              <Gamepad2 className="w-5 h-5 text-sidebar-primary-foreground" />
+            </div>
+
+            {!collapsed && (
+              <div className="hidden md:block min-w-0">
+                <Button
+                  href="/"
+                  variant="ghost"
+                  className="font-bold text-sidebar-foreground text-base p-0"
+                >
+                  دکترگیم
+                </Button>
+                <p className="text-xs text-neutral-400">سیستم مدیریت یکپارچه</p>
+              </div>
+            )}
           </div>
 
-          {!collapsed && (
-            <div>
-              <Button
-                href="/"
-                variant="ghost"
-                className="font-bold text-sidebar-foreground text-base p-0"
-              >
-                دکترگیم
-              </Button>
-              <p className="text-xs text-neutral-400">سیستم مدیریت یکپارچه</p>
-            </div>
-          )}
+          <Button
+            onClick={() => setCollapsed(!collapsed)}
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "hidden md:flex text-white items-center justify-center p-3 text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors",
+              collapsed &&
+                "absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-[#0B031C] border border-neutral-700 rounded-full shadow-lg w-7 h-7",
+            )}
+          >
+            <ChevronLeft
+              className={cn(
+                "w-5 h-5 transition-transform",
+                collapsed && "rotate-180",
+              )}
+            />
+          </Button>
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-hide  text-neutral-300">
@@ -175,15 +200,12 @@ export const Sidebar = () => {
         </nav>
 
         <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="hidden md:flex items-center justify-center p-3 border-t border-neutral-700 text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors"
+          onClick={logout}
+          className="flex items-center gap-3 w-full px-4 py-3 border-t border-neutral-700 text-error-400 hover:bg-[#211736] transition-colors text-sm"
         >
-          <ChevronLeft
-            className={cn(
-              "w-5 h-5 transition-transform",
-              collapsed && "rotate-180",
-            )}
-          />
+          <LogOut className="w-5 h-5 shrink-0" />
+
+          {!collapsed && <span>خروج از حساب</span>}
         </button>
       </aside>
     </>

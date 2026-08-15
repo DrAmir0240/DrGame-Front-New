@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { PaginatedResponse } from "@/features/admin/website-home/types";
 import type { Video } from "../types";
 
@@ -50,7 +51,7 @@ export function useCreateVideo() {
       qc.invalidateQueries({ queryKey: ["admin", "videos"] });
       toast.success("ویدیو با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد ویدیو"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد ویدیو"),
   });
 }
 
@@ -65,7 +66,7 @@ export function useUpdateVideo() {
       qc.invalidateQueries({ queryKey: ["admin", "videos"] });
       toast.success("ویدیو با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی ویدیو"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی ویدیو"),
   });
 }
 
@@ -77,7 +78,7 @@ export function useDeleteVideo() {
       qc.invalidateQueries({ queryKey: ["admin", "videos"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 

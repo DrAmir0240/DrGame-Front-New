@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
+import { toastApiError } from "@/utils/errors";
 import type { OtpResponse } from "../types";
 import { API_ENDPOINTS } from "../constants";
 
@@ -12,8 +13,8 @@ export const useLoginOtp = () => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
-    onError: (err) => {
-       console.log(err)
+    onError: (error) => {
+      toastApiError(error, "خطا در ارسال کد تأیید");
     }
   });
 };

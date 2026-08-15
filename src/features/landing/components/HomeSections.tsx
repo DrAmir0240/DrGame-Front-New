@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Gamepad2, Package, FileText } from "lucide-react";
 import { useSections, useSectionItems } from "@/features/website/apis";
-import { getImageUrl } from "@/lib/utils";
+import { getImageUrl, cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import type { Section, SectionItem } from "@/features/website/types";
 
@@ -21,6 +21,8 @@ function itemHref(item: SectionItem): string | null {
 
 function SectionBlock({ section }: { section: Section }) {
   const { data: items, isLoading } = useSectionItems(section.id);
+
+  const visibleItems = (items ?? []).slice(0, 8);
 
   return (
     <div>
@@ -57,11 +59,12 @@ function SectionBlock({ section }: { section: Section }) {
             </div>
           ))}
         </div>
-      ) : items && items.length > 0 ? (
+      ) : visibleItems.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {items.map((item) => {
+          {visibleItems.map((item, idx) => {
             const href = itemHref(item);
             const meta = itemTypeMeta[item.item_type] ?? itemTypeMeta.product;
+            const hideOnMobile = idx >= 4 ? "hidden md:block" : "";
             const card = (
               <div className="group relative bg-card border border-neutral-200 dark:border-neutral-700 rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/5 h-full">
                 <div className="aspect-square overflow-hidden bg-neutral-100 dark:bg-neutral-800">
@@ -97,11 +100,15 @@ function SectionBlock({ section }: { section: Section }) {
             );
 
             return href ? (
-              <Link key={item.item_id} href={href} className="block h-full">
+              <Link
+                key={item.item_id}
+                href={href}
+                className={cn("block h-full", hideOnMobile)}
+              >
                 {card}
               </Link>
             ) : (
-              <div key={item.item_id} className="h-full">
+              <div key={item.item_id} className={cn("h-full", hideOnMobile)}>
                 {card}
               </div>
             );

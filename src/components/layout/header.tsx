@@ -24,6 +24,7 @@ import {
 import { cn, getImageUrl } from "@/lib/utils";
 import { useProductCart, useGameCart } from "@/features/website/apis";
 import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
+import CompleteProfileBanner from "./complete-profile-banner";
 
 const navItems = [
   { label: "خانه", href: "/" },
@@ -43,15 +44,21 @@ export default function Header() {
   const { data: auth, isLoading: authLoading } = useGetAuthQuery();
 
   const isAuthenticated = auth?.is_authenticated === true;
-  const isMainManager = auth?.user_type === "main_manager";
+  const isMainManager = auth?.is_manager || auth?.is_employee;
+
+  const displayName =
+    auth?.profile?.first_name && auth?.profile?.last_name
+      ? `${auth.profile.first_name} ${auth.profile.last_name}`
+      : auth?.phone;
 
   const cartCount =
     (productCart?.item_count ?? 0) + (gameCart?.games?.length ?? 0);
 
   return (
     <>
-      <header className="h-16 border-b border-neutral-200 bg-background/80 backdrop-blur-sm flex items-center sticky top-0 z-30">
-        <div className="container flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-sm">
+        <div className="h-16 border-b border-neutral-200 flex items-center">
+          <div className="container flex items-center justify-between gap-4">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2.5 shrink-0">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
@@ -127,7 +134,7 @@ export default function Header() {
                           <User className="w-4 h-4 text-primary" />
                         </div>
                       )}
-                      <span className="text-sm">{auth?.user_name || auth?.phone}</span>
+                      <span className="text-sm">{displayName}</span>
                     </Button>
                   </DropdownMenuTrigger>
 
@@ -170,7 +177,10 @@ export default function Header() {
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
+          </div>
         </div>
+
+        <CompleteProfileBanner />
       </header>
 
       <div
@@ -230,7 +240,7 @@ export default function Header() {
                   </div>
                 )}
                 <span className="text-sm font-medium truncate">
-                  {auth?.user_name || auth?.phone}
+                  {displayName}
                 </span>
               </div>
 

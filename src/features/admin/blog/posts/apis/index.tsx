@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { PaginatedResponse } from "@/features/admin/website-home/types";
 import type { BlogPost, BlogCategory } from "../..//types";
 
@@ -53,7 +54,7 @@ export function useCreateBlogPost() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "posts"] });
       toast.success("پست بلاگ با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد پست بلاگ"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد پست بلاگ"),
   });
 }
 
@@ -68,7 +69,7 @@ export function useUpdateBlogPost() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "posts"] });
       toast.success("پست بلاگ با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی پست بلاگ"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی پست بلاگ"),
   });
 }
 
@@ -80,7 +81,7 @@ export function useDeleteBlogPost() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "posts"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -107,7 +108,7 @@ export function useCreateBlogCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
       toast.success("دسته‌بندی بلاگ با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی بلاگ"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی بلاگ"),
   });
 }
 
@@ -125,7 +126,7 @@ export function useUpdateBlogCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
       toast.success("دسته‌بندی بلاگ با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی دسته‌بندی بلاگ"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی دسته‌بندی بلاگ"),
   });
 }
 
@@ -138,7 +139,7 @@ export function useDeleteBlogCategory() {
       qc.invalidateQueries({ queryKey: ["admin", "blog", "categories"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 

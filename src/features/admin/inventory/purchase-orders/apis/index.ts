@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PurchaseOrder,
   PurchaseOrderFilters,
@@ -59,7 +60,7 @@ export function useCreatePurchaseOrder() {
       qc.invalidateQueries({ queryKey: ["inventory", "purchase-orders"] });
       toast.success("سفارش خرید ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد سفارش خرید"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد سفارش خرید"),
   });
 }
 
@@ -72,7 +73,7 @@ export function useUpdatePurchaseOrder() {
       qc.invalidateQueries({ queryKey: ["inventory", "purchase-orders"] });
       toast.success("سفارش خرید بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی سفارش خرید"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی سفارش خرید"),
   });
 }
 
@@ -84,7 +85,7 @@ export function useDeletePurchaseOrder() {
       qc.invalidateQueries({ queryKey: ["inventory", "purchase-orders"] });
       toast.success("سفارش خرید حذف شد");
     },
-    onError: () => toast.error("خطا در حذف سفارش خرید"),
+    onError: (err) => toastApiError(err, "خطا در حذف سفارش خرید"),
   });
 }
 
@@ -97,6 +98,6 @@ export function useReceivePurchaseOrder() {
       qc.invalidateQueries({ queryKey: ["inventory", "purchase-orders"] });
       toast.success("سفارش دریافت شد و موجودی افزایش یافت");
     },
-    onError: () => toast.error("خطا در دریافت سفارش"),
+    onError: (err) => toastApiError(err, "خطا در دریافت سفارش"),
   });
 }

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PaginatedResponse,
   DailyInvoice,
@@ -148,7 +149,7 @@ export function useDeleteAccountSide() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "account-sides"] });
       toast.success("طرف حساب با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف طرف حساب"),
+    onError: (err) => toastApiError(err, "خطا در حذف طرف حساب"),
   });
 }
 
@@ -330,7 +331,7 @@ export function useDeleteDailyInvoice() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "daily", "invoices"] });
       toast.success("فاکتور با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف فاکتور"),
+    onError: (err) => toastApiError(err, "خطا در حذف فاکتور"),
   });
 }
 
@@ -378,7 +379,7 @@ export function useDeleteDailyTransaction() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "daily", "transactions"] });
       toast.success("تراکنش با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف تراکنش"),
+    onError: (err) => toastApiError(err, "خطا در حذف تراکنش"),
   });
 }
 
@@ -461,7 +462,7 @@ export function useDeleteExpense() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "expense"] });
       toast.success("هزینه با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف هزینه"),
+    onError: (err) => toastApiError(err, "خطا در حذف هزینه"),
   });
 }
 
@@ -520,7 +521,7 @@ export function useDeleteIncome() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "income"] });
       toast.success("درآمد با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف درآمد"),
+    onError: (err) => toastApiError(err, "خطا در حذف درآمد"),
   });
 }
 
@@ -579,7 +580,7 @@ export function useDeletePayroll() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "payroll"] });
       toast.success("فیش حقوقی با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف فیش حقوقی"),
+    onError: (err) => toastApiError(err, "خطا در حذف فیش حقوقی"),
   });
 }
 
@@ -638,7 +639,7 @@ export function useDeletePurchase() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "purchase"] });
       toast.success("فاکتور خرید با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف فاکتور خرید"),
+    onError: (err) => toastApiError(err, "خطا در حذف فاکتور خرید"),
   });
 }
 
@@ -697,7 +698,7 @@ export function useDeleteSales() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "sales"] });
       toast.success("فاکتور فروش با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف فاکتور فروش"),
+    onError: (err) => toastApiError(err, "خطا در حذف فاکتور فروش"),
   });
 }
 
@@ -753,7 +754,7 @@ export function useCreateInvoice() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "daily"] });
       toast.success("فاکتور با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد فاکتور"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد فاکتور"),
   });
 }
 
@@ -787,7 +788,7 @@ export function useCreateTransaction() {
       queryClient.invalidateQueries({ queryKey: ["accounting", "daily"] });
       toast.success("تراکنش با موفقیت ثبت شد");
     },
-    onError: () => toast.error("خطا در ثبت تراکنش"),
+    onError: (err) => toastApiError(err, "خطا در ثبت تراکنش"),
   });
 }
 

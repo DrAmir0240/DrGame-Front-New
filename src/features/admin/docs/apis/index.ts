@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { LIMIT } from "../constants";
 import type {
   PaginatedResponse,
@@ -46,7 +47,7 @@ export function useCreateDocCategory() {
       queryClient.invalidateQueries({ queryKey: ["docs", "doc-categories"] });
       toast.success("دسته‌بندی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی"),
   });
 }
 
@@ -73,7 +74,7 @@ export function useCreateDocSubCategory() {
       queryClient.invalidateQueries({ queryKey: ["docs", "doc-sub-categories"] });
       toast.success("زیردسته‌بندی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد زیردسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد زیردسته‌بندی"),
   });
 }
 
@@ -115,7 +116,7 @@ export function useCreateDocument() {
       queryClient.invalidateQueries({ queryKey: ["docs", "documents"] });
       toast.success("سند با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد سند"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد سند"),
   });
 }
 
@@ -130,7 +131,7 @@ export function useUpdateDocument() {
       queryClient.invalidateQueries({ queryKey: ["docs", "documents"] });
       toast.success("سند با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی سند"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی سند"),
   });
 }
 
@@ -142,7 +143,7 @@ export function useDeleteDocument() {
       queryClient.invalidateQueries({ queryKey: ["docs", "documents"] });
       toast.success("سند با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف سند"),
+    onError: (err) => toastApiError(err, "خطا در حذف سند"),
   });
 }
 
@@ -167,7 +168,7 @@ export function useCreateRealAssetCategory() {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-asset-categories"] });
       toast.success("دسته‌بندی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دسته‌بندی"),
   });
 }
 
@@ -194,7 +195,7 @@ export function useCreateRealAssetSubCategory() {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-asset-sub-categories"] });
       toast.success("زیردسته‌بندی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد زیردسته‌بندی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد زیردسته‌بندی"),
   });
 }
 
@@ -236,7 +237,7 @@ export function useCreateRealAsset() {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-assets"] });
       toast.success("دارایی با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد دارایی"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد دارایی"),
   });
 }
 
@@ -251,7 +252,7 @@ export function useUpdateRealAsset() {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-assets"] });
       toast.success("دارایی با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی دارایی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی دارایی"),
   });
 }
 
@@ -263,7 +264,7 @@ export function useDeleteRealAsset() {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-assets"] });
       toast.success("دارایی با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف دارایی"),
+    onError: (err) => toastApiError(err, "خطا در حذف دارایی"),
   });
 }
 

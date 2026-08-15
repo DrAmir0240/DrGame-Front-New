@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { Button, Input, Label } from "@/components/ui";
-import { LogIn, Phone, Loader2 } from "lucide-react";
+import { Home, LogIn, Phone, Loader2 } from "lucide-react";
 import { useLoginOtp } from "./apis";
 import AuthLayout from "./components/AuthLayout";
 import { LOGIN_LABELS } from "./constants";
@@ -30,13 +30,8 @@ export default function LoginPage() {
       icon={LogIn}
       title={LOGIN_LABELS.title}
       subtitle={LOGIN_LABELS.subtitle}
+      homeButton
     >
-      {mutation.isError && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-          {LOGIN_LABELS.errorMessage}
-        </div>
-      )}
-
       {mutation.isSuccess && (
         <div className="mb-4 p-3 rounded-lg bg-emerald-50 text-emerald-700 text-sm border border-emerald-200">
           {mutation.data?.data?.detail || "کد تأیید برای شماره شما ارسال شد"}

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PaginatedResponse,
   Employee,
@@ -83,6 +84,7 @@ export function useCreateResume() {
       queryClient.invalidateQueries({ queryKey: ["hr", "resumes"] });
       toast.success("رزومه با موفقیت ثبت شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ثبت رزومه"),
   });
 }
 
@@ -94,7 +96,7 @@ export function useDeleteResume() {
       queryClient.invalidateQueries({ queryKey: ["hr", "resumes"] });
       toast.success("رزومه با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف رزومه"),
+    onError: (err) => toastApiError(err, "خطا در حذف رزومه"),
   });
 }
 
@@ -119,6 +121,7 @@ export function useCreateArrival() {
       queryClient.invalidateQueries({ queryKey: ["hr", "arrivals"] });
       toast.success("تردد با موفقیت ثبت شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ثبت تردد"),
   });
 }
 
@@ -131,6 +134,7 @@ export function useUpdateArrival() {
       queryClient.invalidateQueries({ queryKey: ["hr", "arrivals"] });
       toast.success("تردد با موفقیت بروزرسانی شد");
     },
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی تردد"),
   });
 }
 
@@ -142,7 +146,7 @@ export function useDeleteArrival() {
       queryClient.invalidateQueries({ queryKey: ["hr", "arrivals"] });
       toast.success("تردد با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف تردد"),
+    onError: (err) => toastApiError(err, "خطا در حذف تردد"),
   });
 }
 
@@ -166,6 +170,7 @@ export function useCreateRequestType() {
       queryClient.invalidateQueries({ queryKey: ["hr", "request-types"] });
       toast.success("نوع درخواست با موفقیت ایجاد شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ایجاد نوع درخواست"),
   });
 }
 
@@ -177,7 +182,7 @@ export function useDeleteRequestType() {
       queryClient.invalidateQueries({ queryKey: ["hr", "request-types"] });
       toast.success("نوع درخواست با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف نوع درخواست"),
+    onError: (err) => toastApiError(err, "خطا در حذف نوع درخواست"),
   });
 }
 
@@ -213,6 +218,7 @@ export function useCreateRequest() {
       queryClient.invalidateQueries({ queryKey: ["hr", "requests"] });
       toast.success("درخواست با موفقیت ثبت شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ثبت درخواست"),
   });
 }
 
@@ -225,6 +231,7 @@ export function useUpdateRequestStatus() {
       queryClient.invalidateQueries({ queryKey: ["hr", "requests"] });
       toast.success("وضعیت درخواست با موفقیت تغییر کرد");
     },
+    onError: (err) => toastApiError(err, "خطا در تغییر وضعیت درخواست"),
   });
 }
 
@@ -236,7 +243,7 @@ export function useDeleteRequest() {
       queryClient.invalidateQueries({ queryKey: ["hr", "requests"] });
       toast.success("درخواست با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف درخواست"),
+    onError: (err) => toastApiError(err, "خطا در حذف درخواست"),
   });
 }
 
@@ -272,6 +279,7 @@ export function useCreatePayroll() {
       queryClient.invalidateQueries({ queryKey: ["hr", "payrolls"] });
       toast.success("فیش حقوقی با موفقیت صادر شد");
     },
+    onError: (err) => toastApiError(err, "خطا در صدور فیش حقوقی"),
   });
 }
 
@@ -307,6 +315,7 @@ export function useCreateOvertime() {
       queryClient.invalidateQueries({ queryKey: ["hr", "overtimes"] });
       toast.success("اضافه‌کاری با موفقیت ثبت شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ثبت اضافه‌کاری"),
   });
 }
 
@@ -318,6 +327,7 @@ export function useApproveOvertime() {
       queryClient.invalidateQueries({ queryKey: ["hr", "overtimes"] });
       toast.success("اضافه‌کاری با موفقیت تایید شد");
     },
+    onError: (err) => toastApiError(err, "خطا در تایید اضافه‌کاری"),
   });
 }
 
@@ -329,7 +339,7 @@ export function useDeleteOvertime() {
       queryClient.invalidateQueries({ queryKey: ["hr", "overtimes"] });
       toast.success("اضافه‌کاری با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف اضافه‌کاری"),
+    onError: (err) => toastApiError(err, "خطا در حذف اضافه‌کاری"),
   });
 }
 

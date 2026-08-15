@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AboutUs } from "../types";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 
 export function useAboutUsList() {
   return useQuery({
@@ -26,7 +27,7 @@ export function useCreateAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("درباره ما با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد درباره ما"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد درباره ما"),
   });
 }
 
@@ -41,7 +42,7 @@ export function useUpdateAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("درباره ما با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی درباره ما"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی درباره ما"),
   });
 }
 
@@ -54,6 +55,6 @@ export function useDeleteAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }

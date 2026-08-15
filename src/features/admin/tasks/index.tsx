@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { PageHeader, ConfirmModal } from "@/components/shared";
-import { Button, toast } from "@/components/ui";
+import { Button } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { Plus, Building2 } from "lucide-react";
 import moment from "moment";
 import type { Task, TaskStatus } from "./types";
@@ -65,13 +66,8 @@ export default function TasksPage() {
         }
       }
       if (res?.status === 200) setOpen(false);
-      console.log(res);
     } catch (err: any) {
-      if (err?.response?.status === 400) {
-        toast.error("اطلاعات را به درستی وارد کنید");
-      } else {
-        toast.error("خطایی رخ داد");
-      }
+      toastApiError(err, "خطایی رخ داد");
     }
   }
 

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Dialog, Input, Textarea } from "@/components/ui";
-import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { useCreateB2BProfile, useUpdateB2BProfile } from "../apis";
 import type { B2BProfile, B2BProfileFormData } from "../types";
 
@@ -65,7 +65,7 @@ export default function B2BFormDialog({
       }
       onSaved();
     } catch (err: any) {
-      toast.error(err?.response?.status === 400 ? "اطلاعات را به درستی وارد کنید" : "خطایی رخ داد");
+      toastApiError(err, "خطایی رخ داد");
     }
   }
 

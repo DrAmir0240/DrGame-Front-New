@@ -1,6 +1,7 @@
 "use client";
 
-import { Camera, Wallet } from "lucide-react";
+import { useRef, useState } from "react";
+import { Camera, Loader2, Wallet } from "lucide-react";
 
 import {
   Card,
@@ -9,17 +10,19 @@ import {
   CardTitle,
 } from "@/components/ui/card/card";
 import { Button } from "@/components/ui";
+import { getImageUrl } from "@/lib/utils";
 
 interface ProfileCardProps {
   profile: {
     first_name: string;
     last_name: string;
     phone: string;
-    avatar?: string | null;
+    profile_pic?: string | null;
     wallet_balance: number;
   };
 
-  onUploadAvatar?: () => void;
+  onUploadAvatar?: (file: File) => void;
+  uploading?: boolean;
 }
 
 const formatPrice = (value: number) =>
@@ -28,7 +31,23 @@ const formatPrice = (value: number) =>
 export default function ProfileCard({
   profile,
   onUploadAvatar,
+  uploading,
 }: ProfileCardProps) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const avatarSrc = preview || (profile.profile_pic ? getImageUrl(profile.profile_pic) : "/images/avatar-placeholder.png");
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setPreview(URL.createObjectURL(file));
+    onUploadAvatar?.(file);
+
+    e.target.value = "";
+  }
+
   return (
     <Card className="rounded-2xl">
       <CardHeader>
@@ -38,19 +57,33 @@ export default function ProfileCard({
       <CardContent className="flex flex-col items-center">
         <div className="relative">
           <img
-            src={profile.avatar || "/images/avatar-placeholder.png"}
+            src={avatarSrc}
             alt={profile.first_name}
             className="w-28 h-28 rounded-full object-cover border-4 border-primary/10"
           />
 
           <Button
+            type="button"
             size="icon"
             variant="secondary"
             className="absolute bottom-0 right-0 rounded-full"
-            onClick={onUploadAvatar}
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
           >
-            <Camera className="w-4 h-4" />
+            {uploading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Camera className="w-4 h-4" />
+            )}
           </Button>
+
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
         </div>
 
         <h2 className="mt-5 text-xl font-bold">
@@ -76,11 +109,13 @@ export default function ProfileCard({
         </div>
 
         <Button
+          type="button"
           className="w-full mt-6"
           variant="outline"
-          onClick={onUploadAvatar}
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
         >
-          تغییر تصویر پروفایل
+          {uploading ? "در حال آپلود..." : "تغییر تصویر پروفایل"}
         </Button>
       </CardContent>
     </Card>

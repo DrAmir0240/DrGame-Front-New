@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type { Banner, Section, SectionItem, AboutUs, PaginatedResponse } from "../types";
 
 // ─── Banners ───
@@ -28,7 +29,7 @@ export function useCreateBanner() {
       qc.invalidateQueries({ queryKey: ["admin", "banners"] });
       toast.success("بنر با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد بنر"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد بنر"),
   });
 }
 
@@ -43,7 +44,7 @@ export function useUpdateBanner() {
       qc.invalidateQueries({ queryKey: ["admin", "banners"] });
       toast.success("بنر با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی بنر"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی بنر"),
   });
 }
 
@@ -56,7 +57,7 @@ export function useDeleteBanner() {
       qc.invalidateQueries({ queryKey: ["admin", "banners"] });
       toast.success("بنر حذف شد");
     },
-    onError: () => toast.error("خطا در حذف بنر"),
+    onError: (err) => toastApiError(err, "خطا در حذف بنر"),
   });
 }
 
@@ -83,7 +84,7 @@ export function useCreateSection() {
       qc.invalidateQueries({ queryKey: ["admin", "sections"] });
       toast.success("سکشن ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد سکشن"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد سکشن"),
   });
 }
 
@@ -101,7 +102,7 @@ export function useUpdateSection() {
       qc.invalidateQueries({ queryKey: ["admin", "sections"] });
       toast.success("سکشن بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی سکشن"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی سکشن"),
   });
 }
 
@@ -114,7 +115,7 @@ export function useDeleteSection() {
       qc.invalidateQueries({ queryKey: ["admin", "sections"] });
       toast.success("سکشن حذف شد");
     },
-    onError: () => toast.error("خطا در حذف سکشن"),
+    onError: (err) => toastApiError(err, "خطا در حذف سکشن"),
   });
 }
 
@@ -146,7 +147,7 @@ export function useCreateSectionItem() {
       qc.invalidateQueries({ queryKey: ["admin", "section-items"] });
       toast.success("آیتم اضافه شد");
     },
-    onError: () => toast.error("خطا در افزودن آیتم"),
+    onError: (err) => toastApiError(err, "خطا در افزودن آیتم"),
   });
 }
 
@@ -164,7 +165,7 @@ export function useUpdateSectionItem() {
       qc.invalidateQueries({ queryKey: ["admin", "section-items"] });
       toast.success("آیتم بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی آیتم"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی آیتم"),
   });
 }
 
@@ -177,7 +178,7 @@ export function useDeleteSectionItem() {
       qc.invalidateQueries({ queryKey: ["admin", "section-items"] });
       toast.success("آیتم حذف شد");
     },
-    onError: () => toast.error("خطا در حذف آیتم"),
+    onError: (err) => toastApiError(err, "خطا در حذف آیتم"),
   });
 }
 
@@ -206,7 +207,7 @@ export function useCreateAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("درباره ما ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد"),
   });
 }
 
@@ -221,7 +222,7 @@ export function useUpdateAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("درباره ما بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی"),
   });
 }
 
@@ -234,6 +235,6 @@ export function useDeleteAboutUs() {
       qc.invalidateQueries({ queryKey: ["admin", "about-us"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }

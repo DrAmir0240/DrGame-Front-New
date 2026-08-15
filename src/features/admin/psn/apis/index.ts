@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { PaginatedResponse } from "@/features/admin/website-home/types";
 import type {
   PsnAccount,
@@ -73,7 +74,7 @@ export function useCreatePsnAccount() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "accounts"] });
       toast.success("اکانت با موفقیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد اکانت"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد اکانت"),
   });
 }
 
@@ -91,7 +92,7 @@ export function useUpdatePsnAccount() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "accounts"] });
       toast.success("اکانت با موفقیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی اکانت"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی اکانت"),
   });
 }
 
@@ -103,7 +104,7 @@ export function useDeletePsnAccount() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "accounts"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 
@@ -138,7 +139,7 @@ export function useAddGamesToAccount() {
       });
       toast.success("بازی‌ها اضافه شدند");
     },
-    onError: () => toast.error("خطا در افزودن بازی"),
+    onError: (err) => toastApiError(err, "خطا در افزودن بازی"),
   });
 }
 
@@ -158,7 +159,7 @@ export function useRemoveGameFromAccount() {
       });
       toast.success("بازی از اکانت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف بازی"),
+    onError: (err) => toastApiError(err, "خطا در حذف بازی"),
   });
 }
 
@@ -200,7 +201,7 @@ export function useCreateAccountStatus() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "account-statuses"] });
       toast.success("وضعیت ایجاد شد");
     },
-    onError: () => toast.error("خطا در ایجاد وضعیت"),
+    onError: (err) => toastApiError(err, "خطا در ایجاد وضعیت"),
   });
 }
 
@@ -213,7 +214,7 @@ export function useUpdateAccountStatus() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "account-statuses"] });
       toast.success("وضعیت بروزرسانی شد");
     },
-    onError: () => toast.error("خطا در بروزرسانی وضعیت"),
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی وضعیت"),
   });
 }
 
@@ -225,7 +226,7 @@ export function useDeleteAccountStatus() {
       qc.invalidateQueries({ queryKey: ["admin", "psn", "account-statuses"] });
       toast.success("حذف شد");
     },
-    onError: () => toast.error("خطا در حذف"),
+    onError: (err) => toastApiError(err, "خطا در حذف"),
   });
 }
 

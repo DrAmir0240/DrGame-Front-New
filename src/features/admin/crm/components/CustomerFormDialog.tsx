@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Dialog, Input, Textarea } from "@/components/ui";
-import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import { useCreateCustomer, useUpdateCustomer } from "../apis";
 import type { Customer } from "../types";
 
@@ -66,7 +66,7 @@ export default function CustomerFormDialog({ open, editing, onClose, onSaved }: 
       }
       onSaved();
     } catch (err: any) {
-      toast.error(err?.response?.status === 400 ? "اطلاعات را به درستی وارد کنید" : "خطایی رخ داد");
+      toastApiError(err, "خطایی رخ داد");
     }
   }
 

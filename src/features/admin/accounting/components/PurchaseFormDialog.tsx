@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Dialog, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
 import { useCreatePurchase, useUpdatePurchase, useAccountSidesDropdown, useCategoryDropdown } from "../apis";
-import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type { Purchase, PurchaseFormData } from "../types";
 
 interface Props {
@@ -42,7 +42,7 @@ export default function PurchaseFormDialog({ open, onClose, editItem }: Props) {
       else { await createPurchase.mutateAsync(data); }
       onClose();
     } catch (err: any) {
-      toast.error(err?.response?.status === 400 ? "اطلاعات را به درستی وارد کنید" : "خطایی رخ داد");
+      toastApiError(err, "خطایی رخ داد");
     }
   }
 

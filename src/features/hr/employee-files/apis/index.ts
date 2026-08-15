@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PaginatedResponse,
   Employee,
@@ -57,6 +58,7 @@ export function useCreateEmployee() {
       queryClient.invalidateQueries({ queryKey: ["hr", "employees"] });
       toast.success("کارمند با موفقیت ایجاد شد");
     },
+    onError: (err) => toastApiError(err, "خطا در ایجاد کارمند"),
   });
 }
 
@@ -69,6 +71,7 @@ export function useUpdateEmployee() {
       queryClient.invalidateQueries({ queryKey: ["hr", "employees"] });
       toast.success("کارمند با موفقیت بروزرسانی شد");
     },
+    onError: (err) => toastApiError(err, "خطا در بروزرسانی کارمند"),
   });
 }
 
@@ -80,7 +83,7 @@ export function useDeleteEmployee() {
       queryClient.invalidateQueries({ queryKey: ["hr", "employees"] });
       toast.success("کارمند با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف کارمند"),
+    onError: (err) => toastApiError(err, "خطا در حذف کارمند"),
   });
 }
 
@@ -110,6 +113,7 @@ export function useUploadEmployeeFile() {
       queryClient.invalidateQueries({ queryKey: ["hr", "employees"] });
       toast.success("فایل با موفقیت آپلود شد");
     },
+    onError: (err) => toastApiError(err, "خطا در آپلود فایل"),
   });
 }
 
@@ -121,6 +125,6 @@ export function useDeleteEmployeeFile() {
       queryClient.invalidateQueries({ queryKey: ["hr", "employees"] });
       toast.success("فایل با موفقیت حذف شد");
     },
-    onError: () => toast.error("خطا در حذف فایل"),
+    onError: (err) => toastApiError(err, "خطا در حذف فایل"),
   });
 }

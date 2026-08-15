@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import { toast } from "@/components/ui";
+import { toastApiError } from "@/utils/errors";
 import type {
   PayrollPreview,
   PayrollIssueFormData,
@@ -79,7 +80,7 @@ export function useCreatePayrollInvoice() {
       qc.invalidateQueries({ queryKey: ["hr", "payroll", "list"] });
       toast.success("حقوق با موفقیت صادر شد");
     },
-    onError: () => toast.error("خطا در صدور حقوق"),
+    onError: (err) => toastApiError(err, "خطا در صدور حقوق"),
   });
 }
 
@@ -92,6 +93,6 @@ export function usePaySalary() {
       qc.invalidateQueries({ queryKey: ["hr", "payroll"] });
       toast.success("حقوق پرداخت شد");
     },
-    onError: () => toast.error("خطا در پرداخت حقوق"),
+    onError: (err) => toastApiError(err, "خطا در پرداخت حقوق"),
   });
 }
