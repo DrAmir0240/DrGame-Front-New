@@ -2,8 +2,13 @@
 
 import { Gamepad2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 
 export default function CTA() {
+  const { data: auth, isLoading } = useGetAuthQuery();
+
+  if (isLoading || auth?.is_authenticated) return null;
+
   return (
     <section id="contact" className="relative py-24 bg-background">
       <div className="container">

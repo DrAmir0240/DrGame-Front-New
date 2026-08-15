@@ -18,13 +18,13 @@ import { BlogCard } from "./components/blog-card";
 
 export function BlogsPage() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
 
   const { data: categories, isLoading: categoriesLoading } =
     useBlogCategories();
   const { data: posts, isLoading } = useBlogPosts({
-    ...(category ? { category: Number(category) } : {}),
+    ...(category !== "all" ? { category: Number(category) } : {}),
   });
 
   const filtered = (posts?.results ?? []).filter((p) =>
@@ -36,10 +36,10 @@ export function BlogsPage() {
   );
 
   const clearFilters = () => {
-    setCategory("");
+    setCategory("all");
   };
 
-  const hasFilters = !!category;
+  const hasFilters = category !== "all";
 
   return (
     <div className="container py-8">
@@ -106,7 +106,7 @@ export function BlogsPage() {
                 <SelectValue placeholder="دسته‌بندی" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">همه دسته‌بندی‌ها</SelectItem>
+                <SelectItem value="all">همه دسته‌بندی‌ها</SelectItem>
                 {(categories ?? []).map((cat) => (
                   <SelectItem key={cat.id} value={String(cat.id)}>
                     {cat.title}

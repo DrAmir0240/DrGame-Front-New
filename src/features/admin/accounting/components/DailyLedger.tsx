@@ -142,7 +142,6 @@ export default function DailyLedger() {
           <TabsTrigger value="invoices">فاکتورهای روز</TabsTrigger>
           <TabsTrigger value="transactions">تراکنش‌ها</TabsTrigger>
           <TabsTrigger value="account-sides">طرف‌های حساب</TabsTrigger>
-          <TabsTrigger value="payable-receivable">پرداختنی/دریافتنی</TabsTrigger>
         </TabsList>
 
         <TabsContent value="invoices">

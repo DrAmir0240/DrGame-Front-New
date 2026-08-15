@@ -8,7 +8,7 @@ import { ProductCard } from "../../components/product-card";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 const categories = [
-  { value: "", label: "همه دسته‌بندی‌ها" },
+  { value: "all", label: "همه دسته‌بندی‌ها" },
   { value: "1", label: "کنسول" },
   { value: "2", label: "لوازم جانبی" },
   { value: "3", label: "بازی فیزیکی" },
@@ -16,14 +16,14 @@ const categories = [
 
 export function ProductsPage() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("all");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [inStock, setInStock] = useState<boolean | undefined>(undefined);
   const [showFilters, setShowFilters] = useState(false);
 
   const { data: products, isLoading } = useProducts({
-    ...(category ? { product__category: Number(category) } : {}),
+    ...(category !== "all" ? { product__category: Number(category) } : {}),
     ...(minPrice ? { min_price: Number(minPrice) } : {}),
     ...(maxPrice ? { max_price: Number(maxPrice) } : {}),
     ...(inStock !== undefined ? { in_stock: inStock } : {}),
@@ -37,13 +37,13 @@ export function ProductsPage() {
   );
 
   const clearFilters = () => {
-    setCategory("");
+    setCategory("all");
     setMinPrice("");
     setMaxPrice("");
     setInStock(undefined);
   };
 
-  const hasFilters = category || minPrice || maxPrice || inStock !== undefined;
+  const hasFilters = category !== "all" || minPrice || maxPrice || inStock !== undefined;
 
   return (
     <div className="container py-8">
@@ -120,16 +120,16 @@ export function ProductsPage() {
               onChange={(e) => setMaxPrice(e.target.value)}
             />
             <Select
-              value={inStock === undefined ? "" : inStock ? "true" : "false"}
+              value={inStock === undefined ? "all" : inStock ? "true" : "false"}
               onValueChange={(v) =>
-                setInStock(v === "" ? undefined : v === "true")
+                setInStock(v === "all" ? undefined : v === "true")
               }
             >
               <SelectTrigger>
                 <SelectValue placeholder="موجودی" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">همه</SelectItem>
+                <SelectItem value="all">همه</SelectItem>
                 <SelectItem value="true">موجود</SelectItem>
                 <SelectItem value="false">ناموجود</SelectItem>
               </SelectContent>

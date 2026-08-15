@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
   poweredByHeader: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "drgame.s3.ir-thr-at1.arvanstorage.ir",
+      },
+    ],
+  },
 };
 
 export default withBundleAnalyzer({

@@ -44,7 +44,7 @@ const menuItems = [
   // },
 ];
 
-function SidebarItem({ item, collapsed }: any) {
+function SidebarItem({ item, collapsed, onNavigate }: any) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -90,6 +90,7 @@ function SidebarItem({ item, collapsed }: any) {
               <Link
                 key={child.path}
                 href={child.path}
+                onClick={onNavigate}
                 className={cn(
                   "block px-3 py-2 rounded-lg text-sm transition-all",
                   "hover:bg-sidebar-accent",
@@ -110,6 +111,7 @@ function SidebarItem({ item, collapsed }: any) {
   return (
     <Link
       href={item.path}
+      onClick={onNavigate}
       className={cn(
         "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all",
         "hover:bg-[#211736]",
@@ -195,7 +197,12 @@ export const Sidebar = () => {
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-hide  text-neutral-300">
           {menuItems.map((item, i) => (
-            <SidebarItem key={i} item={item} collapsed={collapsed} />
+            <SidebarItem
+              key={i}
+              item={item}
+              collapsed={collapsed}
+              onNavigate={() => setMobileOpen(false)}
+            />
           ))}
         </nav>
 

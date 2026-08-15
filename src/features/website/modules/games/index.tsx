@@ -8,7 +8,7 @@ import { GameCard } from "../../components/game-card";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 const categories = [
-  { value: "", label: "همه دسته‌بندی‌ها" },
+  { value: "all", label: "همه دسته‌بندی‌ها" },
   { value: "3", label: "اکشن-ادونچر" },
   { value: "4", label: "ورزشی" },
   { value: "5", label: "شبیه‌سازی" },
@@ -16,13 +16,13 @@ const categories = [
 
 export function GamesPage() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("all");
   const [minVolume, setMinVolume] = useState("");
   const [maxVolume, setMaxVolume] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
   const { data: games, isLoading } = useGames({
-    ...(category ? { category: Number(category) } : {}),
+    ...(category !== "all" ? { category: Number(category) } : {}),
     ...(minVolume ? { min_volume: Number(minVolume) } : {}),
     ...(maxVolume ? { max_volume: Number(maxVolume) } : {}),
   });
@@ -35,12 +35,12 @@ export function GamesPage() {
   );
 
   const clearFilters = () => {
-    setCategory("");
+    setCategory("all");
     setMinVolume("");
     setMaxVolume("");
   };
 
-  const hasFilters = category || minVolume || maxVolume;
+  const hasFilters = category !== "all" || minVolume || maxVolume;
 
   return (
     <div className="container py-8">

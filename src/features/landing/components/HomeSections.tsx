@@ -13,6 +13,15 @@ const itemTypeMeta: Record<string, { label: string; icon: React.ReactNode }> = {
   blog: { label: "بلاگ", icon: <FileText className="w-3.5 h-3.5" /> },
 };
 
+const sectionIconMeta: Record<
+  Section["model_content"],
+  React.ReactNode
+> = {
+  game: <Gamepad2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />,
+  product: <Package className="w-5 h-5 text-primary-600 dark:text-primary-400" />,
+  blog: <FileText className="w-5 h-5 text-primary-600 dark:text-primary-400" />,
+};
+
 function itemHref(item: SectionItem): string | null {
   if (item.item_type === "game") return `/games/${item.item_id}`;
   if (item.item_type === "product") return `/products/${item.item_id}`;
@@ -29,14 +38,20 @@ function SectionBlock({ section }: { section: Section }) {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500/15 to-secondary-500/15 border border-primary-500/20 flex items-center justify-center">
-            <Gamepad2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+            {sectionIconMeta[section.model_content] ?? sectionIconMeta.game}
           </div>
           <h2 className="text-xl md:text-2xl font-extrabold text-foreground">
             {section.title}
           </h2>
         </div>
         <Link
-          href={section.model_content === "game" ? "/games" : "/products"}
+          href={
+            section.model_content === "game"
+              ? "/games"
+              : section.model_content === "blog"
+                ? "/blog"
+                : "/products"
+          }
           className="flex items-center gap-1.5 text-sm text-primary-600 dark:text-primary-400 hover:gap-2.5 transition-all font-medium"
         >
           مشاهده همه
