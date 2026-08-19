@@ -32,7 +32,7 @@ export function useDocCategories() {
   return useQuery<DocCategory[]>({
     queryKey: ["docs", "doc-categories"],
     queryFn: async () => {
-      const { data } = await api.get<DocCategory[]>("/docs/docs/categories/");
+      const { data } = await api.get<DocCategory[]>("/docs/categories/");
       return data;
     },
   });
@@ -42,7 +42,7 @@ export function useCreateDocCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { title: string; description?: string }) =>
-      api.post("/docs/docs/categories/create/", payload),
+      api.post("/docs/categories/create/", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "doc-categories"] });
       toast.success("دسته‌بندی با موفقیت ایجاد شد");
@@ -59,7 +59,7 @@ export function useDocSubCategories(categoryId?: number | null) {
     queryFn: async () => {
       const params: Record<string, string> = {};
       if (categoryId) params.category = String(categoryId);
-      const { data } = await api.get<DocSubCategory[]>("/docs/docs/sub-categories/", { params });
+      const { data } = await api.get<DocSubCategory[]>("/docs/sub-categories/", { params });
       return data;
     },
   });
@@ -69,7 +69,7 @@ export function useCreateDocSubCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { title: string; description?: string; category: number }) =>
-      api.post("/docs/docs/sub-categories/create/", payload),
+      api.post("/docs/sub-categories/create/", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "doc-sub-categories"] });
       toast.success("زیردسته‌بندی با موفقیت ایجاد شد");
@@ -88,7 +88,7 @@ export function useDocumentList(filters?: DocFilters) {
         ...filters,
         limit: LIMIT,
       });
-      const { data } = await api.get<PaginatedResponse<Document>>("/docs/docs/", { params });
+      const { data } = await api.get<PaginatedResponse<Document>>("/docs/", { params });
       return data;
     },
   });
@@ -98,7 +98,7 @@ export function useDocumentDetail(id: number | null) {
   return useQuery<Document>({
     queryKey: ["docs", "document", id],
     queryFn: async () => {
-      const { data } = await api.get<Document>(`/docs/docs/${id}/`);
+      const { data } = await api.get<Document>(`/docs/${id}/`);
       return data;
     },
     enabled: !!id,
@@ -109,7 +109,7 @@ export function useCreateDocument() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (formData: FormData) =>
-      api.post("/docs/docs/create/", formData, {
+      api.post("/docs/create/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       }),
     onSuccess: () => {
@@ -124,7 +124,7 @@ export function useUpdateDocument() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
-      api.patch(`/docs/docs/${id}/`, formData, {
+      api.patch(`/docs/${id}/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       }),
     onSuccess: () => {
@@ -138,7 +138,7 @@ export function useUpdateDocument() {
 export function useDeleteDocument() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => api.delete(`/docs/docs/${id}/`),
+    mutationFn: (id: number) => api.delete(`/docs/${id}/`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "documents"] });
       toast.success("سند با موفقیت حذف شد");
@@ -153,7 +153,7 @@ export function useRealAssetCategories() {
   return useQuery<RealAssetsCategory[]>({
     queryKey: ["docs", "real-asset-categories"],
     queryFn: async () => {
-      const { data } = await api.get<RealAssetsCategory[]>("/docs/real-assets/categories/");
+      const { data } = await api.get<RealAssetsCategory[]>("/real-assets/categories/");
       return data;
     },
   });
@@ -163,7 +163,7 @@ export function useCreateRealAssetCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { title: string; description?: string }) =>
-      api.post("/docs/real-assets/categories/create/", payload),
+      api.post("/real-assets/categories/create/", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-asset-categories"] });
       toast.success("دسته‌بندی با موفقیت ایجاد شد");
@@ -180,7 +180,7 @@ export function useRealAssetSubCategories(categoryId?: number | null) {
     queryFn: async () => {
       const params: Record<string, string> = {};
       if (categoryId) params.category = String(categoryId);
-      const { data } = await api.get<RealAssetsSubCategory[]>("/docs/real-assets/sub-categories/", { params });
+      const { data } = await api.get<RealAssetsSubCategory[]>("/real-assets/sub-categories/", { params });
       return data;
     },
   });
@@ -190,7 +190,7 @@ export function useCreateRealAssetSubCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { title: string; description?: string; category: number }) =>
-      api.post("/docs/real-assets/sub-categories/create/", payload),
+      api.post("/real-assets/sub-categories/create/", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-asset-sub-categories"] });
       toast.success("زیردسته‌بندی با موفقیت ایجاد شد");
@@ -209,7 +209,7 @@ export function useRealAssetList(filters?: RealAssetsFilters) {
         ...filters,
         limit: LIMIT,
       });
-      const { data } = await api.get<PaginatedResponse<RealAssets>>("/docs/real-assets/", { params });
+      const { data } = await api.get<PaginatedResponse<RealAssets>>("/real-assets/", { params });
       return data;
     },
   });
@@ -219,7 +219,7 @@ export function useRealAssetDetail(id: number | null) {
   return useQuery<RealAssets>({
     queryKey: ["docs", "real-asset", id],
     queryFn: async () => {
-      const { data } = await api.get<RealAssets>(`/docs/real-assets/${id}/`);
+      const { data } = await api.get<RealAssets>(`/real-assets/${id}/`);
       return data;
     },
     enabled: !!id,
@@ -230,7 +230,7 @@ export function useCreateRealAsset() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (formData: FormData) =>
-      api.post("/docs/real-assets/create/", formData, {
+      api.post("/real-assets/create/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       }),
     onSuccess: () => {
@@ -245,7 +245,7 @@ export function useUpdateRealAsset() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
-      api.patch(`/docs/real-assets/${id}/`, formData, {
+      api.patch(`/real-assets/${id}/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       }),
     onSuccess: () => {
@@ -259,7 +259,7 @@ export function useUpdateRealAsset() {
 export function useDeleteRealAsset() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => api.delete(`/docs/real-assets/${id}/`),
+    mutationFn: (id: number) => api.delete(`/real-assets/${id}/`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["docs", "real-assets"] });
       toast.success("دارایی با موفقیت حذف شد");

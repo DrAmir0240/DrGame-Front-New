@@ -64,10 +64,16 @@ export function useBlogPostImages(blogId: number | null) {
   return useQuery<BlogPostImage[]>({
     queryKey: ["website", "blog", "posts", blogId, "images"],
     queryFn: async () => {
-      const { data } = await api.get<BlogPostImage[]>(
-        `/website/blog/${blogId}/images/`
-      );
-      return data;
+      const { data } = await api.get(`/website/blog/${blogId}/images/`);
+      if (Array.isArray(data)) return data;
+      if (
+        data &&
+        typeof data === "object" &&
+        "results" in data
+      ) {
+        return (data as { results: BlogPostImage[] }).results;
+      }
+      return [];
     },
     enabled: !!blogId,
   });

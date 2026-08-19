@@ -30,7 +30,7 @@ export function BlogDetailView({ id }: Props) {
     );
   }
 
-  const sortedImages = [...(images ?? [])].sort(
+  const sortedImages = [...(Array.isArray(images) ? images : [])].sort(
     (a, b) => a.priority - b.priority
   );
 
