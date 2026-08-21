@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { getImageUrl } from "@/lib/utils";
 import { formatPrice } from "@/utils/format";
 import { useProductDetail, useProductImages, useAddToProductCart } from "../../apis";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 
 export function ProductDetailPage() {
   const params = useParams();
@@ -20,6 +21,8 @@ export function ProductDetailPage() {
   const { data: product, isLoading } = useProductDetail(id);
   const { data: images } = useProductImages(product?.id ?? null);
   const addToCart = useAddToProductCart();
+  const { data: auth } = useGetAuthQuery();
+  const isAuthenticated = auth?.is_authenticated === true;
 
   const productInfo = product?.product;
   const stockCount = product?.stock_count ?? (product as unknown as { product_stock?: number })?.product_stock ?? 0;
@@ -70,6 +73,10 @@ export function ProductDetailPage() {
     allImages[Math.min(activeImage, allImages.length - 1)] || allImages[0] || "";
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
     addToCart
       .mutateAsync({
         storeProductId: product.id,

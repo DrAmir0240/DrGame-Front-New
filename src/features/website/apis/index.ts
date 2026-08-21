@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 import type {
   Banner,
   Section,
@@ -141,6 +142,11 @@ export async function removeFromGameCart(gameId: number) {
 
 // ─── Hooks ───
 
+function useIsAuthenticated() {
+  const { data: auth } = useGetAuthQuery();
+  return auth?.is_authenticated === true;
+}
+
 export function useBanners() {
   return useQuery({
     queryKey: ["website", "banners"],
@@ -226,30 +232,38 @@ export function useGameImages(gameId: number | null) {
 }
 
 export function useProductCart() {
+  const isAuthenticated = useIsAuthenticated();
   return useQuery({
     queryKey: ["website", "cart", "product"],
     queryFn: fetchProductCart,
+    enabled: isAuthenticated,
   });
 }
 
 export function useGameCart() {
+  const isAuthenticated = useIsAuthenticated();
   return useQuery({
     queryKey: ["website", "cart", "game"],
     queryFn: fetchGameCart,
+    enabled: isAuthenticated,
   });
 }
 
 export function useMatchedAccounts() {
+  const isAuthenticated = useIsAuthenticated();
   return useQuery({
     queryKey: ["website", "cart", "game", "matched-accounts"],
     queryFn: fetchMatchedAccounts,
+    enabled: isAuthenticated,
   });
 }
 
 export function useCartVolume() {
+  const isAuthenticated = useIsAuthenticated();
   return useQuery({
     queryKey: ["website", "cart", "game", "volume"],
     queryFn: fetchCartVolume,
+    enabled: isAuthenticated,
   });
 }
 

@@ -19,8 +19,11 @@ export interface Customer {
 }
 
 export interface CustomerFormData {
-  address: string;
-  postal_code: string;
+  number?: string;
+  first_name?: string;
+  last_name?: string;
+  address?: string;
+  postal_code?: string;
   profile_pic: File | string | null;
 }
 

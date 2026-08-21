@@ -8,6 +8,9 @@ import { useCreateCustomer, useUpdateCustomer } from "../apis";
 import type { Customer } from "../types";
 
 interface FormValues {
+  number: string;
+  first_name: string;
+  last_name: string;
   address: string;
   postal_code: string;
 }
@@ -29,16 +32,22 @@ export default function CustomerFormDialog({ open, editing, onClose, onSaved }: 
   const isPending = createCustomer.isPending || updateCustomer.isPending;
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
-    defaultValues: { address: "", postal_code: "" },
+    defaultValues: { number: "", first_name: "", last_name: "", address: "", postal_code: "" },
   });
 
   useEffect(() => {
     if (editing) {
-      reset({ address: editing.address ?? "", postal_code: editing.postal_code ?? "" });
+      reset({
+        number: editing.phone ?? "",
+        first_name: "",
+        last_name: "",
+        address: editing.address ?? "",
+        postal_code: editing.postal_code ?? "",
+      });
       setProfilePic(null);
       setImgPreview(editing.profile_pic);
     } else {
-      reset({ address: "", postal_code: "" });
+      reset({ number: "", first_name: "", last_name: "", address: "", postal_code: "" });
       setProfilePic(null);
       setImgPreview(null);
     }
@@ -54,8 +63,14 @@ export default function CustomerFormDialog({ open, editing, onClose, onSaved }: 
 
   async function onFormSubmit(data: FormValues) {
     const formData = new FormData();
-    if (data.address) formData.append("address", data.address);
-    if (data.postal_code) formData.append("postal_code", data.postal_code);
+    if (editing) {
+      if (data.address) formData.append("address", data.address);
+      if (data.postal_code) formData.append("postal_code", data.postal_code);
+    } else {
+      formData.append("number", data.number);
+      formData.append("first_name", data.first_name);
+      formData.append("last_name", data.last_name);
+    }
     if (profilePic) formData.append("profile_pic", profilePic);
 
     try {
@@ -88,20 +103,56 @@ export default function CustomerFormDialog({ open, editing, onClose, onSaved }: 
       }
     >
       <form id="customer-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
-        <Textarea
-          label="آدرس"
-          placeholder="آدرس کامل..."
-          {...register("address")}
-        />
-        <Input
-          label="کد پستی"
-          placeholder="کد پستی ۱۰ رقمی"
-          maxLength={10}
-          error={errors.postal_code?.message}
-          {...register("postal_code", {
-            pattern: { value: /^\d{0,10}$/, message: "کد پستی باید حداکثر ۱۰ رقم باشد" },
-          })}
-        />
+        {!editing && (
+          <>
+            <Input
+              label="شماره موبایل"
+              placeholder="09xxxxxxxxx"
+              maxLength={11}
+              dir="ltr"
+              className="text-left"
+              autoComplete="tel"
+              error={errors.number?.message}
+              {...register("number", {
+                required: "شماره موبایل الزامی است",
+                pattern: {
+                  value: /^0?9\d{9}$/,
+                  message: "شماره موبایل معتبر نیست",
+                },
+              })}
+            />
+            <Input
+              label="نام"
+              placeholder="نام مشتری"
+              error={errors.first_name?.message}
+              {...register("first_name", { required: "نام الزامی است" })}
+            />
+            <Input
+              label="نام خانوادگی"
+              placeholder="نام خانوادگی مشتری"
+              error={errors.last_name?.message}
+              {...register("last_name", { required: "نام خانوادگی الزامی است" })}
+            />
+          </>
+        )}
+        {editing && (
+          <>
+            <Textarea
+              label="آدرس"
+              placeholder="آدرس کامل..."
+              {...register("address")}
+            />
+            <Input
+              label="کد پستی"
+              placeholder="کد پستی ۱۰ رقمی"
+              maxLength={10}
+              error={errors.postal_code?.message}
+              {...register("postal_code", {
+                pattern: { value: /^\d{0,10}$/, message: "کد پستی باید حداکثر ۱۰ رقم باشد" },
+              })}
+            />
+          </>
+        )}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-neutral-700">تصویر پروفایل</label>
           <input

@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { getImageUrl } from "@/lib/utils";
 import { formatNumber } from "@/utils/format";
 import { useGameDetail, useGameImages, useAddToGameCart } from "../../apis";
+import { useGetAuthQuery } from "@/layouts/admin-layout/apis/use-get-auth.query";
 
 export function GameDetailPage() {
   const params = useParams();
@@ -19,6 +20,8 @@ export function GameDetailPage() {
   const { data: game, isLoading } = useGameDetail(id);
   const { data: images } = useGameImages(id);
   const addToCart = useAddToGameCart();
+  const { data: auth } = useGetAuthQuery();
+  const isAuthenticated = auth?.is_authenticated === true;
 
   useEffect(() => {
     setActiveImage(0);
@@ -61,6 +64,10 @@ export function GameDetailPage() {
     allImages[Math.min(activeImage, allImages.length - 1)] || allImages[0] || "";
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
     addToCart.mutateAsync(game.id).then(() => router.push("/cart"));
   };
 
