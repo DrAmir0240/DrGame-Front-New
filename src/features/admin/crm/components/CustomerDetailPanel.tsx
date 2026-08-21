@@ -22,6 +22,7 @@ import {
   useDeleteB2BProfile,
 } from "../apis";
 import type { Customer, CustomerTransaction, CustomerInvoice } from "../types";
+import { AddressSection } from "@/features/customer/addresses";
 import CustomerFormDialog from "./CustomerFormDialog";
 import B2BFormDialog from "./B2BFormDialog";
 
@@ -264,6 +265,8 @@ export default function CustomerDetailPanel({ customer, onBack, onRefresh }: Pro
           </div>
         </>
       )}
+
+      <AddressSection customerId={customer.id} />
 
       <div className="rounded-xl border border-neutral-200 bg-white p-4">
         <h4 className="font-semibold text-sm mb-3">خلاصه وضعیت</h4>

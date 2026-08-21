@@ -17,6 +17,7 @@ import {
   User,
   Headset,
   Home,
+  MapPin,
   LogOut,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ import { useSidebar } from "@/contexts/SidebarContext";
 const menuItems = [
   { label: "خانه", icon: Home, path: "/" },
   { label: "پنل کاربری", icon: User, path: "/profile" },
+  { label: "آدرس‌ها", icon: MapPin, path: "/addresses" },
   { label: "کیف پول", icon: WalletMinimal, path: "/wallet" },
   { label: "علاقمندی ها", icon: Star, path: "wishlist" },
   { label: "سفارشات من", icon: ShoppingCart, path: "/orders" },
